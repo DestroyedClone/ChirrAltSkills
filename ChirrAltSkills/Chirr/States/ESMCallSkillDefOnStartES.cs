@@ -10,11 +10,12 @@ namespace ChirrAltSkills.Chirr.States
     {
         public override void OnEnter()
         {
+
             foreach (var gs in characterBody.GetComponents<GenericSkill>())
             {
                 if (gs && gs.skillDef && gs.skillDef.activationStateMachineName == "Passive")
                 {
-                    this.outer.SetNextState();
+                    gs.ExecuteIfReady();
                     return;
                 }
             }

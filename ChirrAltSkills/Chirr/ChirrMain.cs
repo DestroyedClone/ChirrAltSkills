@@ -89,7 +89,9 @@ namespace ChirrAltSkills.Chirr
             }
             else if (body.bodyIndex == ChirrCore.bodyIndex)
             {
-
+                var locPassiveESM = EntityStateMachine.FindByCustomName(body.gameObject, "Passive");
+                var nextState = EntityStateCatalog.InstantiateState(locPassiveESM.mainStateType);
+                locPassiveESM.SetInterruptState(nextState, EntityStates.InterruptPriority.Death);
             }
         }
 
@@ -173,7 +175,7 @@ namespace ChirrAltSkills.Chirr
             passiveESM = bodyPrefab.AddComponent<EntityStateMachine>();
             passiveESM.commonComponents = nsm.stateMachines[0].commonComponents;
             passiveESM.customName = "Passive";
-            //passiveESM.mainStateType = new EntityStates.SerializableEntityStateType(typeof(EmptyES));
+            passiveESM.mainStateType = new EntityStates.SerializableEntityStateType(typeof(ESMCallSkillDefOnStartES));
 
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
             #endregion
