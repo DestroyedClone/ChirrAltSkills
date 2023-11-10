@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirrAltSkills", "ChirrAltSkills\ChirrAltSkills.csproj", "{F0A8700C-28AD-4D68-B8FD-578794F2E924}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DE99E34-B334-43CC-A951-E1BCB7EA7E6E}"
+	ProjectSection(SolutionItems) = preProject
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Release", "Release", "{58970723-10B9-4609-AF94-6A2392FA2588}"
+	ProjectSection(SolutionItems) = preProject
+		CHANGELOG.md = CHANGELOG.md
+		icon.png = icon.png
+		manifest.json = manifest.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0A8700C-28AD-4D68-B8FD-578794F2E924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A8700C-28AD-4D68-B8FD-578794F2E924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A8700C-28AD-4D68-B8FD-578794F2E924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A8700C-28AD-4D68-B8FD-578794F2E924}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{58970723-10B9-4609-AF94-6A2392FA2588} = {6DE99E34-B334-43CC-A951-E1BCB7EA7E6E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EF4245A5-512B-4DBA-B5C9-09CD83E4059D}
+	EndGlobalSection
+EndGlobal
