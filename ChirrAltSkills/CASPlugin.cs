@@ -13,7 +13,7 @@ namespace ChirrAltSkills
     [BepInDependency("com.ChirrLover.Starstorm2Unofficial", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.rob.DiggerUnearthed", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
-    [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrS2U Alt Skills", "0.0.1")]
+    [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrSS2U Alt Skills", "0.0.1")]
     public class CASPlugin : BaseUnityPlugin
     {
         internal static BepInEx.Logging.ManualLogSource _logger;
@@ -33,8 +33,8 @@ namespace ChirrAltSkills
                 modloaded_Miner = true;
 
             Assets.Init();
-            ChirrMain.Init();
             Buffs.Init();
+            ChirrMain.Init();
         }
     }
 }

@@ -25,7 +25,7 @@
 		"DESCLONE_SS2UCHIRR_TRANSFORM_SCEPTER_OVERRIDE": "TEMP",
 		"DESCLONE_SS2UCHIRR_VORE_NAME": "Snack",
 		"DESCLONE_SS2UCHIRR_VORE_DESC": "Snackies. Activate to <style=cIsDamage>consume</style> an enemy within <style=cIsDamage>5m</style> below <style=cIsHealth>10% health</style>, granting <style=cIsDamage>'Snackies'</style> buffs proportional to the amount of health remaining",
-		"DESCLONE_SS2UCHIRR_SNACKY_KEYWORD": "Increases armor and max health.\nDecreases attack speed, movement speed, acceleration, and jump power.\nSnackies increase the range of Snack.",
+		"DESCLONE_SS2UCHIRR_SNACKY_KEYWORD": "<style=cKeywordName>Snackies</style><style=cSub>Increases armor and max health.\nDecreases attack speed, movement speed, acceleration, and jump power.\nSnackies increase the range of Snack.</style>",
 		"DESCLONE_SS2UCHIRR_VORE_SCEPTER_NAME": "Devour",
 		"DESCLONE_SS2UCHIRR_VORE_SCEPTER_DESC": "Snackies. Activate to <style=cIsDamage>consume</style> an enemy within <style=cIsDamage>5m</style> below <style=cIsHealth>10% health</style>, granting <style=cIsDamage>'snacky'</style> buffs proportional to the amount of health remaining"
 	}

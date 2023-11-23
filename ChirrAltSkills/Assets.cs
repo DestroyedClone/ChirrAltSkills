@@ -63,28 +63,29 @@ namespace ChirrAltSkills
 
             public static Sprite buffSnackiesIcon;
             public static Sprite buffSoulmateIcon;
+            public static Sprite buffGoldrushIcon;
 
             public static Sprite LoadSprite(string path)
             {
-                if (path.IsNullOrWhiteSpace()) return null;
                 return mainAssetBundle.LoadAsset<Sprite>(path);
             }
 
             public static void Init()
             {
-                passiveEcosystemIcon = LoadSprite("Assets/StageBuffIcon");
-                passiveSnackiesIcon = LoadSprite("Assets/GluttonyIcon");
-                passiveLapinIcon = LoadSprite("Assets/LapinIcon");
-                passiveSoulmateIcon = LoadSprite("Assets/SoulmatePassiveIcon");
-                passiveMinerIcon = LoadSprite("Assets/MinerIcon");
-                //Assets/NeedleIcon
-                specialTFIcon = LoadSprite("Assets/ChirrTFIcon");
-                specialTFIconScepter = LoadSprite("Assets/ChirrTFScepterIcon");
-                specialEatIcon = LoadSprite("Assets/ChirrEatIcon");
-                specialEatIconScepter = LoadSprite("Assets/ChirrEatScepterIcon");
+                passiveEcosystemIcon = LoadSprite("StageBuffIcon");
+                passiveSnackiesIcon = LoadSprite("GluttonyIcon");
+                passiveLapinIcon = LoadSprite("LapinIcon");
+                passiveSoulmateIcon = LoadSprite("SoulmatePassiveIcon");
+                passiveMinerIcon = LoadSprite("MinerIcon");
+                //NeedleIcon
+                specialTFIcon = LoadSprite("ChirrTFIcon");
+                specialTFIconScepter = LoadSprite("ChirrTFScepterIcon");
+                specialEatIcon = LoadSprite("ChirrEatIcon");
+                specialEatIconScepter = LoadSprite("ChirrEatScepterIcon");
 
-                buffSnackiesIcon = LoadSprite("");
-                buffSoulmateIcon = LoadSprite("Assets/SoulmateBuffIcon");
+                buffSnackiesIcon = passiveSnackiesIcon;
+                buffSoulmateIcon = LoadSprite("SoulmateBuffIcon");
+                buffGoldrushIcon = passiveMinerIcon;
             }
         }
     }

@@ -15,6 +15,7 @@ namespace ChirrAltSkills.Chirr
 
         public void FixedUpdate()
         {
+            stopwatch -= Time.fixedDeltaTime;
             if (stopwatch <= 0)
             {
                 stopwatch = timer;

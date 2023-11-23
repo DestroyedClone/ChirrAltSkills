@@ -41,7 +41,7 @@ namespace ChirrAltSkills.Chirr.States.Passive
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public float GetModdedAdrenalineCap()
         {
-            return adrenalineCap;
+            return DiggerPlugin.DiggerPlugin.adrenalineCap;
         }
 
         public void FixedUpdate()

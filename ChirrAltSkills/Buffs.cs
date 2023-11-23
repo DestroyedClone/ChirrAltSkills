@@ -42,6 +42,7 @@ namespace ChirrAltSkills
             {
                 args.armorAdd += 0.5f * soulmateBuffCount;
                 args.baseRegenAdd += 0.25f * soulmateBuffCount;
+                args.baseHealthAdd += 25 * soulmateBuffCount;
             }
         }
 
@@ -77,7 +78,7 @@ namespace ChirrAltSkills
                 goldRushBuff = ScriptableObject.CreateInstance<BuffDef>();
                 goldRushBuff.name = "DCSS2UChirrGoldRush";
                 goldRushBuff.buffColor = Color.yellow;
-                //goldRushBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
+                goldRushBuff.iconSprite = Assets.ChirrAssets.buffGoldrushIcon;
                 goldRushBuff.canStack = true;
                 goldRushBuff.iconSprite = null;
                 goldRushBuff.isCooldown = false;

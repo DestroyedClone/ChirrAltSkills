@@ -34,7 +34,6 @@ namespace ChirrAltSkills.Chirr
         public static SkillDef passiveMinerSD;
         public static SkillDef passiveDefaultSD;
 
-        public static SkillDef primaryThornSD;
         public static SteppedSkillDef primaryDoubleTapSD;
 
         public static SkillDef specialTransformSD;
@@ -223,15 +222,6 @@ namespace ChirrAltSkills.Chirr
         {
             var primarySF = skillLocator.primary.skillFamily;
 
-            #region Needle
-            primaryThornSD = CreateSkillDef("DESCLONE_SS2UCHIRR_PRIMARY_NEEDLE");
-            CopySkillDefFields(primarySF.variants[0].skillDef, primaryThornSD, false);
-            primaryThornSD.activationState = new EntityStates.SerializableEntityStateType(typeof(FireThorn));
-            //primaryThornSD.icon = Assets.ChirrAssets.
-            ContentAddition.AddSkillDef(primaryThornSD);
-            AddToSkillFamily(primaryThornSD, primarySF);
-            #endregion
-
             primaryDoubleTapSD = ScriptableObject.CreateInstance<SteppedSkillDef>();
             primaryDoubleTapSD.skillName = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP";
             (primaryDoubleTapSD as ScriptableObject).name = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP";
@@ -250,30 +240,20 @@ namespace ChirrAltSkills.Chirr
             var tame = skillLocator.special.skillFamily.variants[0].skillDef;
             CopySkillDefFields(tame, specialTransformSD, false);
             specialTransformSD.activationState = new EntityStates.SerializableEntityStateType(typeof(TransformEnemy));
+            specialTransformSD.icon = Assets.ChirrAssets.specialTFIcon;
             ContentAddition.AddSkillDef(specialTransformSD);
-
-            HG.ArrayUtils.ArrayAppend(ref skillLocator.special.skillFamily.variants, new SkillFamily.Variant
-            {
-                skillDef = specialTransformSD,
-                viewableNode = new ViewablesCatalog.Node(specialTransformSD.skillNameToken, false, null),
-                unlockableDef = null
-            });
+            AddToSkillFamily(specialTransformSD, skillLocator.special.skillFamily);
 
             specialEatSD = CreateSkillDef("DESCLONE_SS2UCHIRR_VORE");
             CopySkillDefFields(tame, specialEatSD, false);
             specialEatSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EatEnemy));
+            specialEatSD.icon = Assets.ChirrAssets.specialEatIcon;
             specialEatSD.keywordTokens = new string[]
             {
                 "DESCLONE_SS2UCHIRR_SNACKY_KEYWORD"
             };
             ContentAddition.AddSkillDef(specialEatSD);
-
-            HG.ArrayUtils.ArrayAppend(ref skillLocator.special.skillFamily.variants, new SkillFamily.Variant
-            {
-                skillDef = specialEatSD,
-                viewableNode = new ViewablesCatalog.Node(specialEatSD.skillNameToken, false, null),
-                unlockableDef = null
-            });
+            AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
         }
     }
 }
