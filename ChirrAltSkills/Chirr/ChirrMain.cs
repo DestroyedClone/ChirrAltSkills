@@ -53,6 +53,13 @@ namespace ChirrAltSkills.Chirr
 
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
+            Run.onServerGameOver += Run_onServerGameOver;
+        }
+
+        private static void Run_onServerGameOver(Run arg1, GameEndingDef arg2)
+        {
+            chirrSoulmates.Clear();
+            commandoSoulmates.Clear();
         }
 
         private static void GlobalEventManager_onCharacterDeathGlobal(DamageReport obj)
@@ -94,62 +101,6 @@ namespace ChirrAltSkills.Chirr
             }
         }
 
-        public static void CopySkillDefFields(SkillDef parent, SkillDef child, bool copyIdentifiers)
-        {
-            child.activationState = parent.activationState;
-            child.activationStateMachineName = parent.activationStateMachineName;
-            child.baseMaxStock = parent.baseMaxStock;
-            child.baseRechargeInterval = parent.baseRechargeInterval;
-            child.beginSkillCooldownOnSkillEnd = parent.beginSkillCooldownOnSkillEnd;
-            child.canceledFromSprinting = parent.canceledFromSprinting;
-            child.cancelSprintingOnActivation = parent.cancelSprintingOnActivation;
-            child.dontAllowPastMaxStocks = parent.dontAllowPastMaxStocks;
-            child.forceSprintDuringState = parent.forceSprintDuringState;
-            child.fullRestockOnAssign = parent.fullRestockOnAssign;
-            child.icon = parent.icon;
-            child.interruptPriority = parent.interruptPriority;
-            child.isCombatSkill = parent.isCombatSkill;
-            child.keywordTokens = parent.keywordTokens;
-            child.mustKeyPress = parent.mustKeyPress;
-            child.rechargeStock = parent.rechargeStock;
-            child.requiredStock = parent.requiredStock;
-            child.resetCooldownTimerOnUse = parent.resetCooldownTimerOnUse;
-            if (copyIdentifiers)
-            {
-                child.skillDescriptionToken = parent.skillDescriptionToken;
-                child.skillName = parent.skillName;
-                child.skillNameToken = parent.skillNameToken;
-            }
-            child.stockToConsume = parent.stockToConsume;
-        }
-
-        public static SkillDef CreateSkillDef(string token)
-        {
-            SkillDef skillDef = ScriptableObject.CreateInstance<SkillDef>();
-            skillDef.skillName = token;
-            (skillDef as ScriptableObject).name = token;
-            skillDef.skillNameToken = token+"_NAME";
-            skillDef.skillDescriptionToken = token + "_DESC";
-            return skillDef;
-        }
-
-        public static SkillDef CreateSkillDef(string token, SkillFamily family, UnlockableDef unlockableDef = null)
-        {
-            var sd = CreateSkillDef(token);
-            AddToSkillFamily(sd, family, unlockableDef);
-            return sd;
-        }
-
-        public static void AddToSkillFamily(SkillDef skillDef, SkillFamily skillFamily, UnlockableDef unlockableDef = null)
-        {
-            HG.ArrayUtils.ArrayAppend(ref skillFamily.variants, new SkillFamily.Variant
-            {
-                skillDef = skillDef,
-                viewableNode = new ViewablesCatalog.Node(skillDef.skillNameToken, false, null),
-                unlockableDef = unlockableDef
-            });
-        }
-
         private static void SetupPassive()
         {
             void AddPassive(SkillDef skillDef)
@@ -179,7 +130,7 @@ namespace ChirrAltSkills.Chirr
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
             #endregion
             #region None
-            passiveDefaultSD = CreateSkillDef("Default");
+            passiveDefaultSD = ChirrMainHelpers.CreateSkillDef("Default");
             passiveDefaultSD.skillNameToken = skillLocator.passiveSkill.skillNameToken;
             passiveDefaultSD.skillName = passiveDefaultSD.skillNameToken;
             passiveDefaultSD.skillDescriptionToken = skillLocator.passiveSkill.skillDescriptionToken;
@@ -189,12 +140,12 @@ namespace ChirrAltSkills.Chirr
             AddPassive(passiveDefaultSD);
             #endregion
 
-            passiveEcosystemSD = CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
+            passiveEcosystemSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
             passiveEcosystemSD.icon = Assets.ChirrAssets.passiveEcosystemIcon;
             passiveEcosystemSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveStageBuffES));
             AddPassive(passiveEcosystemSD);
 
-            passiveSnackiesSD = CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_GLUTTON");
+            passiveSnackiesSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_GLUTTON");
             passiveSnackiesSD.icon = Assets.ChirrAssets.passiveSnackiesIcon;
             passiveSnackiesSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveSnackiesES));
             passiveSnackiesSD.keywordTokens = new string[]
@@ -203,17 +154,17 @@ namespace ChirrAltSkills.Chirr
             };
             AddPassive(passiveSnackiesSD);
 
-            passiveBunnySD = CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_BUNNY");
+            passiveBunnySD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_BUNNY");
             passiveBunnySD.icon = Assets.ChirrAssets.passiveLapinIcon;
             passiveBunnySD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveLapinES));
             AddPassive(passiveBunnySD);
 
-            passiveSoulmateSD = CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE");
+            passiveSoulmateSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE");
             passiveSoulmateSD.icon = Assets.ChirrAssets.passiveSoulmateIcon;
             passiveSoulmateSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveSoulmateES));
             AddPassive(passiveSoulmateSD);
 
-            passiveMinerSD = CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_MINER");
+            passiveMinerSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_MINER");
             passiveMinerSD.icon = Assets.ChirrAssets.passiveMinerIcon;
             passiveMinerSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveMinerES));
             AddPassive(passiveMinerSD);
@@ -227,25 +178,25 @@ namespace ChirrAltSkills.Chirr
             (primaryDoubleTapSD as ScriptableObject).name = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP";
             primaryDoubleTapSD.skillNameToken = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP_NAME";
             primaryDoubleTapSD.skillDescriptionToken = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP_DESC";
-            CopySkillDefFields(primarySF.variants[0].skillDef, primaryDoubleTapSD, false);
+            ChirrMainHelpers.CopySkillDefFields(primarySF.variants[0].skillDef, primaryDoubleTapSD, false);
             primaryDoubleTapSD.icon = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Commando/CommandoBodyFirePistol.asset").WaitForCompletion().icon;
             primaryDoubleTapSD.activationState = new EntityStates.SerializableEntityStateType(typeof(FireDoubleTap));
             primaryDoubleTapSD.skillDescriptionToken = "COMMANDO_PRIMARY_DESCRIPTION";
             ContentAddition.AddSkillDef(primaryDoubleTapSD);
-            AddToSkillFamily(primaryDoubleTapSD, primarySF);
+            ChirrMainHelpers.AddToSkillFamily(primaryDoubleTapSD, primarySF);
         }
         private static void SetupSpecial()
         {
-            specialTransformSD = CreateSkillDef("DESCLONE_SS2UCHIRR_TRANSFORM");
+            specialTransformSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_TRANSFORM");
             var tame = skillLocator.special.skillFamily.variants[0].skillDef;
-            CopySkillDefFields(tame, specialTransformSD, false);
+            ChirrMainHelpers.CopySkillDefFields(tame, specialTransformSD, false);
             specialTransformSD.activationState = new EntityStates.SerializableEntityStateType(typeof(TransformEnemy));
             specialTransformSD.icon = Assets.ChirrAssets.specialTFIcon;
             ContentAddition.AddSkillDef(specialTransformSD);
-            AddToSkillFamily(specialTransformSD, skillLocator.special.skillFamily);
+            ChirrMainHelpers.AddToSkillFamily(specialTransformSD, skillLocator.special.skillFamily);
 
-            specialEatSD = CreateSkillDef("DESCLONE_SS2UCHIRR_VORE");
-            CopySkillDefFields(tame, specialEatSD, false);
+            specialEatSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_VORE");
+            ChirrMainHelpers.CopySkillDefFields(tame, specialEatSD, false);
             specialEatSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EatEnemy));
             specialEatSD.icon = Assets.ChirrAssets.specialEatIcon;
             specialEatSD.keywordTokens = new string[]
@@ -253,7 +204,7 @@ namespace ChirrAltSkills.Chirr
                 "DESCLONE_SS2UCHIRR_SNACKY_KEYWORD"
             };
             ContentAddition.AddSkillDef(specialEatSD);
-            AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
+            ChirrMainHelpers.AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
         }
     }
 }

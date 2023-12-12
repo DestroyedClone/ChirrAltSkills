@@ -56,10 +56,10 @@ namespace ChirrAltSkills.Chirr.States.Special
                     break;
                 }
             }
-            if (foundTarget)
+            /*if (!foundTarget)
             {
                 skillLocator.special.AddOneStock();
-            }
+            }*/
             outer.SetNextStateToMain();
         }
     }

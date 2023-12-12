@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using RoR2;
 using EntityStates;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {
@@ -18,6 +19,9 @@ namespace ChirrAltSkills.Chirr.States.Passive
             var info = ChirrStageBuffInfo.GetStageBuffInfo(currentScene.name);
             if (info.stageIds.Length == 0) return;
 
+            if (!NetworkServer.active) return;
+
+            info.Apply(characterBody);
         }
     }
 }

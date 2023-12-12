@@ -11,7 +11,6 @@ namespace ChirrAltSkills.Chirr.States.Passive
         public override void OnEnter()
         {
             base.OnEnter();
-            Chat.AddMessage($"Lapin!");
             characterBody.baseJumpCount += 1;
             characterBody.baseJumpPower *= 0.75f;
             characterBody.MarkAllStatsDirty();

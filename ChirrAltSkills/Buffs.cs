@@ -40,9 +40,10 @@ namespace ChirrAltSkills
             var soulmateBuffCount = sender.GetBuffCount(soulmateBuff);
             if (soulmateBuffCount > 0)
             {
-                args.armorAdd += 0.5f * soulmateBuffCount;
-                args.baseRegenAdd += 0.25f * soulmateBuffCount;
-                args.baseHealthAdd += 25 * soulmateBuffCount;
+                args.armorAdd += 5f * soulmateBuffCount;
+                args.baseRegenAdd += 0.5f * soulmateBuffCount;
+                //Get level health
+                args.healthMultAdd += 0.1f * soulmateBuffCount;
             }
         }
 
@@ -60,7 +61,7 @@ namespace ChirrAltSkills
 
             soulmateBuff = ScriptableObject.CreateInstance<BuffDef>();
             soulmateBuff.name = "DCSS2UChirrSoulmate";
-            soulmateBuff.buffColor = Color.magenta;
+            soulmateBuff.buffColor = Color.white;
             soulmateBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
             soulmateBuff.canStack = true;
             soulmateBuff.iconSprite = null;
