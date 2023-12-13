@@ -17,7 +17,6 @@ namespace ChirrAltSkills.Chirr.States.Passive
             if (currentScene == null)
                 return;
             var info = ChirrStageBuffInfo.GetStageBuffInfo(currentScene.name);
-            if (info.stageIds.Length == 0) return;
 
             if (!NetworkServer.active) return;
 

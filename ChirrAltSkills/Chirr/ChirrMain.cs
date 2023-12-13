@@ -54,6 +54,8 @@ namespace ChirrAltSkills.Chirr
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
             Run.onServerGameOver += Run_onServerGameOver;
+
+            ChirrStageBuffInfo.Init();
         }
 
         private static void Run_onServerGameOver(Run arg1, GameEndingDef arg2)
