@@ -24,9 +24,9 @@ namespace ChirrAltSkills.Chirr
         {
             public string[] stageIds;
             public float armor;
-            public const float minArmor = 1;
-            public const float medArmor = 3;
-            public const float maxArmor = 5;
+            public const float minArmor = 2;
+            public const float medArmor = 4;
+            public const float maxArmor = 6;
 
             public float movespeed;
             public const float minMS = 0.1f;
@@ -39,12 +39,12 @@ namespace ChirrAltSkills.Chirr
             public const float maxAS = 0.5f;
 
             public float regen;
-            public const float minRegen = 0.1f;
-            public const float medRegen = 0.3f;
-            public const float maxRegen = 0.5f;
+            public const float minRegen = 0.2f;
+            public const float medRegen = 0.4f;
+            public const float maxRegen = 0.6f;
 
             public const int moveSpeedMaxStagesCleared = 10;
-            public const float stageMultiplierStagesCleared = 0.1f;
+            public const float stageMultiplierStagesCleared = 0.2f;
 
             public void Apply(CharacterBody characterBody)
             {
