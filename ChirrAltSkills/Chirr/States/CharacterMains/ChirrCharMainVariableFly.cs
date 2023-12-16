@@ -113,6 +113,11 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         {
             hoverStopwatch = hoverDuration;
             hoverOnCooldown = false;
+            if (NetworkServer.active)
+                while (characterBody.HasBuff(indicatorBD))
+                {
+                    characterBody.RemoveBuff(indicatorBD);
+                }
         }
 
         public override void ProcessJump()
@@ -133,10 +138,11 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                         hoverVelocityMultiplier = hoverVelocityMultiplier,
                         hoverAccelerationMultiplier = hoverAccelerationMultiplier
                     });
-                    for (int i = 0; i < hoverDuration; i++)
-                    {
-                        characterBody.AddBuff(indicatorBD);
-                    }
+                    if (NetworkServer.active)
+                        for (int i = 0; i < hoverDuration + 1; i++)
+                        {
+                            characterBody.AddBuff(indicatorBD);
+                        }
                 }
                 if (inJetpackState && (!inputPressed || !canHover || hoverOnCooldown))
                 {
@@ -172,8 +178,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 hoverStopwatch -= Time.fixedDeltaTime;
                 if (NetworkServer.active)
                 {
-                    var buffCount = characterBody.GetBuffCount(indicatorBD) + 1;
-                    if (buffCount > hoverStopwatch && buffCount > 0)
+                    var buffCount = characterBody.GetBuffCount(indicatorBD);
+                    if (buffCount > hoverStopwatch + 1 && buffCount > 0)
                     {
                         characterBody.RemoveBuff(indicatorBD);
                     }
