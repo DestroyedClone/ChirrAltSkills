@@ -14,6 +14,7 @@ namespace ChirrAltSkills
         public static BuffDef snackyBuff;
         public static BuffDef soulmateBuff;
         public static BuffDef goldRushBuff;
+        public static BuffDef hoverDurationIndicatorBuff;
 
         public static void Init()
         {
@@ -87,6 +88,17 @@ namespace ChirrAltSkills
                 goldRushBuff.isHidden = false;
                 RecalculateStatsAPI.GetStatCoefficients += ChirrGoldRushRecalcStats;
             }
+
+            hoverDurationIndicatorBuff = ScriptableObject.CreateInstance<BuffDef>();
+            hoverDurationIndicatorBuff.name = "DCSS2UChirrSoulmate";
+            hoverDurationIndicatorBuff.buffColor = Color.white;
+            hoverDurationIndicatorBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
+            hoverDurationIndicatorBuff.canStack = true;
+            hoverDurationIndicatorBuff.iconSprite = null;
+            hoverDurationIndicatorBuff.isCooldown = false;
+            hoverDurationIndicatorBuff.isDebuff = false;
+            hoverDurationIndicatorBuff.isHidden = false;
+            ContentAddition.AddBuffDef(hoverDurationIndicatorBuff);
         }
 
         private static void ChirrGoldRushRecalcStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)

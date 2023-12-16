@@ -35,7 +35,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private float hoverStopwatch = 0;
         private bool hoverOnCooldown = false;
 
-        private bool enableLogging = true;
+        private static BuffDef indicatorBD => Buffs.hoverDurationIndicatorBuff;
 
         public void ChangeHoverMultiplier(float hoverVelocityMultiplier, float hoverAccelerationMultiplier)
         {
@@ -133,6 +133,10 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                         hoverVelocityMultiplier = hoverVelocityMultiplier,
                         hoverAccelerationMultiplier = hoverAccelerationMultiplier
                     });
+                    for (int i = 0; i < hoverDuration; i++)
+                    {
+                        characterBody.AddBuff(indicatorBD);
+                    }
                 }
                 if (inJetpackState && (!inputPressed || !canHover || hoverOnCooldown))
                 {
@@ -166,6 +170,14 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             if (hoverHasDuration && inJetpackState && !hoverOnCooldown)
             {
                 hoverStopwatch -= Time.fixedDeltaTime;
+                if (NetworkServer.active)
+                {
+                    var buffCount = characterBody.GetBuffCount(indicatorBD) + 1;
+                    if (buffCount > hoverStopwatch && buffCount > 0)
+                    {
+                        characterBody.RemoveBuff(indicatorBD);
+                    }
+                }
                 hoverOnCooldown = hoverStopwatch <= 0;
             }
 
@@ -189,6 +201,11 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         {
             Util.PlaySound(wingSoundStop, gameObject);
 
+            if (NetworkServer.active)
+                while (characterBody.HasBuff(indicatorBD))
+                {
+                    characterBody.RemoveBuff(indicatorBD);
+                }
             if (characterMotor && hoverHasDuration)
             {
                 characterMotor.onHitGroundAuthority -= ResetHoverCooldown;
