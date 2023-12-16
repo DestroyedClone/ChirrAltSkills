@@ -28,12 +28,14 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private float hoverVelocityMultiplier = 1;
         private float hoverAccelerationMultiplier = 1;
 
-        //Set, no toggle.
+        //Set by ChangeHoverMultiplier, do not set manually.
         private bool canHover = true;
         private bool hoverHasDuration = false;
         private float hoverDuration = -1;
         private float hoverStopwatch = 0;
         private bool hoverOnCooldown = false;
+
+        private bool enableLogging = true;
 
         public void ChangeHoverMultiplier(float hoverVelocityMultiplier, float hoverAccelerationMultiplier)
         {
@@ -50,7 +52,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             foreach (var skill in gameObject.GetComponents<GenericSkill>())
             {
                 if (!skill || !skill.skillFamily || (skill.skillFamily as ScriptableObject).name != "DCSS2UChirrPassive")
-                    return;
+                    continue;
                 if (skill.skillDef == ChirrMain.passiveEcosystemSD)
                 {
                     var mult = ChirrStageBuffInfo.GetStageHoverMultiplier();
@@ -59,14 +61,14 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                     ChangeHoverMultiplier(1, accelMult);
                 }
                 else if (skill.skillDef == ChirrMain.passiveBunnySD) {
-                    canHover = false;
+                    ChangeHoverMultiplier(1, -1);
                 }
                 else if (skill.skillDef == ChirrMain.passiveMinerSD)
                 {
                     hoverHasDuration = true;
                     hoverDuration = 5f;
                 }
-                return;
+                break;
             }
         }
 
