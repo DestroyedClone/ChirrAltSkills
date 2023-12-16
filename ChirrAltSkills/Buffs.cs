@@ -34,7 +34,7 @@ namespace ChirrAltSkills
                 args.moveSpeedReductionMultAdd += 0.05f * snackyBuffCount;
                 //args.utilityCooldownMultAdd += 0.1f * buffCount;
                 //Relicofmass
-                sender.acceleration = sender.baseAcceleration / (snackyBuffCount * StaticValues.massFactor / 2);
+                //sender.acceleration = sender.baseAcceleration / (snackyBuffCount * StaticValues.massFactor / 2);
                 sender.characterMotor.mass = ChirrMain.cachedMass + (ChirrMain.cachedMass / 4 * snackyBuffCount);
             }
             var soulmateBuffCount = sender.GetBuffCount(soulmateBuff);
