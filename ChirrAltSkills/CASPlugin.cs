@@ -18,7 +18,7 @@ namespace ChirrAltSkills
     {
         internal static BepInEx.Logging.ManualLogSource _logger;
         internal static BepInEx.Configuration.ConfigFile _config;
-        const string LastDllVersion = "0.14.3";
+        const string LastDllVersion = "0.16.4";
         public static PluginInfo PInfo { get; set; }
 
         public static bool modloaded_Miner = false;

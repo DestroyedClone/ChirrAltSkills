@@ -21,7 +21,11 @@ namespace ChirrAltSkills.Chirr.States.Special
         {
             base.OnEnter();
             Util.PlaySound("SS2UChirrSpecial", gameObject);
-            bool foundTarget = false;
+
+            if (!NetworkServer.active) return;
+            var buffCount = characterBody.GetBuffCount(Buffs.snackyBuff);
+            var calculatedRadius = radius + radiusPerStack * buffCount;
+            var cachedPosition = characterBody.corePosition;
             foreach (var enemy in CharacterMaster.readOnlyInstancesList)
             {
                 if (enemy.teamIndex == teamComponent.teamIndex)
@@ -31,30 +35,24 @@ namespace ChirrAltSkills.Chirr.States.Special
                     continue;
                 if (enemyCB.isBoss && !AllowBoss)
                     continue;
-                var buffCount = characterBody.GetBuffCount(Buffs.snackyBuff);
-                if (Vector3.Distance(enemyCB.corePosition, characterBody.corePosition) > radius + radiusPerStack * buffCount)
+                if (Vector3.Distance(enemyCB.corePosition, cachedPosition) > calculatedRadius)
+                    continue; var enemyHC = enemyCB.healthComponent;
+                if (!enemyHC || !enemyHC.alive || enemyHC.health <= 0 || enemyHC.combinedHealthFraction > 0.5f)
                     continue;
-                foundTarget |= true;
-                if (NetworkServer.active)
-                {
-                    var enemyHC = enemyCB.healthComponent;
-                    if (!enemyHC || !enemyHC.alive || enemyHC.health <= 0 || enemyHC.combinedHealthFraction > 0.5f)
-                        continue;
 
-                    var remainingHealthFraction = enemyHC.combinedHealthFraction;
-                    int buffsToGive = Mathf.CeilToInt(remainingHealthFraction * 10);
-                    for (int i = 0; i < buffsToGive; i++)
-                        characterBody.AddTimedBuff(Buffs.snackyBuff, duration);
+                var remainingHealthFraction = enemyHC.combinedHealthFraction;
+                int buffsToGive = Mathf.CeilToInt(remainingHealthFraction * 10);
+                for (int i = 0; i < buffsToGive; i++)
+                    characterBody.AddTimedBuff(Buffs.snackyBuff, duration);
 
-                    EffectData effectData = new EffectData();
-                    effectData.origin = transform.position;
-                    effectData.SetNetworkedObjectReference(gameObject);
-                    EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/FruitHealEffect"), effectData, true);
-                    healthComponent.HealFraction(remainingHealthFraction, default);
+                EffectData effectData = new EffectData();
+                effectData.origin = transform.position;
+                effectData.SetNetworkedObjectReference(gameObject);
+                EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/FruitHealEffect"), effectData, true);
+                healthComponent.HealFraction(remainingHealthFraction, default);
 
-                    enemyHC.Suicide(characterBody.gameObject);
-                    break;
-                }
+                enemyHC.Suicide(characterBody.gameObject);
+                break;
             }
             /*if (!foundTarget)
             {

@@ -43,13 +43,18 @@ namespace ChirrAltSkills.Chirr
             public const float medRegen = 0.4f;
             public const float maxRegen = 0.6f;
 
+            public float hover;
+            public const float minHover = 0.25f;
+            public const float medHover = 0.5f;
+            public const float maxHover = 1.0f;
+
+
             public const int moveSpeedMaxStagesCleared = 10;
             public const float stageMultiplierStagesCleared = 0.2f;
 
             public void Apply(CharacterBody characterBody)
             {
-                var stageClearCount = Run.instance.stageClearCount;
-                if (stageClearCount < 0) return;
+                var stageClearCount = Mathf.Max(0, Run.instance.stageClearCount);
 
                 var multiplier = 1 + stageClearCount * stageMultiplierStagesCleared;
                 var multiplierMS = 1 + Mathf.Min(20, stageClearCount) * stageMultiplierStagesCleared;
@@ -58,8 +63,16 @@ namespace ChirrAltSkills.Chirr
                 characterBody.baseAttackSpeed += attackspeed * multiplier;
                 characterBody.baseMoveSpeed += movespeed * multiplierMS;
                 characterBody.baseRegen += regen * multiplier;
+
                 characterBody.MarkAllStatsDirty();
             }
+        }
+
+        public static float GetStageHoverMultiplier()
+        {
+            var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            var info = GetStageBuffInfo(currentScene.name);
+            return info.hover;
         }
 
         public static StageBuffInfo defaultInfo = new StageBuffInfo()
@@ -69,6 +82,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.medHover,
         };
 
         public static StageBuffInfo blackbeachInfo = new StageBuffInfo()
@@ -83,6 +97,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.medRegen,
+            hover = StageBuffInfo.maxHover,
         };
 
         public static StageBuffInfo golemplainsInfo = new StageBuffInfo()
@@ -97,6 +112,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.medMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.medRegen,
+            hover = StageBuffInfo.maxHover,
         };
 
         public static StageBuffInfo snowyforestInfo = new StageBuffInfo()
@@ -106,6 +122,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.maxHover,
         };
 
         public static StageBuffInfo goolakeInfo = new StageBuffInfo()
@@ -119,6 +136,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.minHover,
         };
 
         public static StageBuffInfo foggyswampInfo = new StageBuffInfo()
@@ -131,6 +149,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.maxRegen,
+            hover = StageBuffInfo.medHover,
         };
 
         public static StageBuffInfo ancientloftInfo = new StageBuffInfo()
@@ -144,6 +163,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.minHover,
         };
 
         public static StageBuffInfo frozenwallInfo = new StageBuffInfo()
@@ -157,6 +177,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.medHover,
         };
 
         public static StageBuffInfo wispgraveyardInfo = new StageBuffInfo()
@@ -169,6 +190,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.maxMS,
             attackspeed = StageBuffInfo.medAS,
             regen = StageBuffInfo.medRegen,
+            hover = StageBuffInfo.maxHover,
         };
 
         public static StageBuffInfo sulfurpoolsInfo = new StageBuffInfo()
@@ -181,6 +203,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.minMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.minHover,
         };
         public static StageBuffInfo dampcaveInfo = new StageBuffInfo()
         {
@@ -193,6 +216,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.medMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.minRegen,
+            hover = StageBuffInfo.medHover,
         };
         public static StageBuffInfo shipgraveyardInfo = new StageBuffInfo()
         {
@@ -204,6 +228,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.maxMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.maxRegen,
+            hover = StageBuffInfo.maxHover,
         };
         public static StageBuffInfo rootjungleInfo = new StageBuffInfo()
         {
@@ -215,6 +240,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.maxMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.maxRegen,
+            hover = StageBuffInfo.maxHover,
         };
         public static StageBuffInfo skymeadowInfo = new StageBuffInfo()
         {
@@ -227,6 +253,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.maxMS,
             attackspeed = StageBuffInfo.minAS,
             regen = StageBuffInfo.maxRegen,
+            hover = StageBuffInfo.maxHover,
         };
         public static StageBuffInfo bossInfo = new StageBuffInfo()
         {
@@ -245,6 +272,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.maxMS,
             attackspeed = StageBuffInfo.maxAS,
             regen = StageBuffInfo.maxRegen,
+            hover = StageBuffInfo.maxHover,
         };
 
         public static StageBuffInfo bazaarInfo = new StageBuffInfo()
@@ -265,6 +293,7 @@ namespace ChirrAltSkills.Chirr
             movespeed = StageBuffInfo.medMS,
             attackspeed = StageBuffInfo.medAS,
             regen = StageBuffInfo.medRegen,
+            hover = StageBuffInfo.medHover,
         };
 
 

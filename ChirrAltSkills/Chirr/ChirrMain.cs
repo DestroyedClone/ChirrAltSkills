@@ -13,6 +13,7 @@ using UnityEngine.AddressableAssets;
 using ChirrAltSkills.Chirr.States.Passive;
 using ChirrAltSkills.Chirr.States.Special;
 using ChirrAltSkills.Chirr.States.Primary;
+using ChirrAltSkills.Chirr.States.CharacterMains;
 
 namespace ChirrAltSkills.Chirr
 {
@@ -42,11 +43,15 @@ namespace ChirrAltSkills.Chirr
         public static List<CharacterBody> chirrSoulmates = new List<CharacterBody>();
         public static List<CharacterBody> commandoSoulmates = new List<CharacterBody> ();
 
+
+
         public static void Init()
         {
             bodyPrefab = ChirrCore.chirrPrefab;
             cachedMass = bodyPrefab.GetComponent<CharacterMotor>().mass;
             skillLocator = bodyPrefab.GetComponent<SkillLocator>();
+
+            RevertBaseChanges();
             SetupPassive();
             SetupPrimary();
             SetupSpecial();
@@ -56,6 +61,12 @@ namespace ChirrAltSkills.Chirr
             Run.onServerGameOver += Run_onServerGameOver;
 
             ChirrStageBuffInfo.Init();
+        }
+
+        private static void RevertBaseChanges()
+        {
+            bodyPrefab.GetComponent<CharacterBody>().baseJumpPower = 15f;
+            bodyPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(ChirrCharMainVariableFly));
         }
 
         private static void Run_onServerGameOver(Run arg1, GameEndingDef arg2)
@@ -132,12 +143,12 @@ namespace ChirrAltSkills.Chirr
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
             #endregion
             #region None
-            passiveDefaultSD = ChirrMainHelpers.CreateSkillDef("Default");
+            passiveDefaultSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_TAKEFLIGHT");
             passiveDefaultSD.skillNameToken = skillLocator.passiveSkill.skillNameToken;
             passiveDefaultSD.skillName = passiveDefaultSD.skillNameToken;
             passiveDefaultSD.skillDescriptionToken = skillLocator.passiveSkill.skillDescriptionToken;
             passiveDefaultSD.icon = skillLocator.passiveSkill.icon;
-            passiveDefaultSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EmptyES));
+            passiveDefaultSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveTakeFlightES));
             skillLocator.passiveSkill.enabled = false;
             AddPassive(passiveDefaultSD);
             #endregion

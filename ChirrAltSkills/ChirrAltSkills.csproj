@@ -3,6 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Chirr\States\Passive\PassiveVoidES.cs" />
+  </ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="BepInEx.Analyzers" Version="1.0.*">
