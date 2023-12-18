@@ -127,6 +127,8 @@ namespace ChirrAltSkills.Chirr
                 });
                 ContentAddition.AddSkillDef(skillDef);
             }
+            ContentAddition.AddEntityState<ChirrCharMainVariableFly>(out _);
+
             #region Creating Passive
             passiveSkill = bodyPrefab.AddComponent<GenericSkill>();
             passiveSkillFamily = ScriptableObject.CreateInstance<SkillFamily>();
@@ -136,9 +138,10 @@ namespace ChirrAltSkills.Chirr
 
             var nsm = bodyPrefab.GetComponent<NetworkStateMachine>();
             passiveESM = bodyPrefab.AddComponent<EntityStateMachine>();
-            passiveESM.commonComponents = nsm.stateMachines[0].commonComponents;
+            //passiveESM.commonComponents = nsm.stateMachines[0].commonComponents;
             passiveESM.customName = "Passive";
             passiveESM.mainStateType = new EntityStates.SerializableEntityStateType(typeof(ESMCallSkillDefOnStartES));
+            ContentAddition.AddEntityState<ESMCallSkillDefOnStartES>(out _);
 
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
             #endregion
@@ -151,12 +154,14 @@ namespace ChirrAltSkills.Chirr
             passiveDefaultSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveTakeFlightES));
             skillLocator.passiveSkill.enabled = false;
             AddPassive(passiveDefaultSD);
+            ContentAddition.AddEntityState<PassiveTakeFlightES>(out _);
             #endregion
 
             passiveEcosystemSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
             passiveEcosystemSD.icon = Assets.ChirrAssets.passiveEcosystemIcon;
             passiveEcosystemSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveStageBuffES));
             AddPassive(passiveEcosystemSD);
+            ContentAddition.AddEntityState<PassiveStageBuffES>(out _);
 
             passiveSnackiesSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_GLUTTON");
             passiveSnackiesSD.icon = Assets.ChirrAssets.passiveSnackiesIcon;
@@ -166,21 +171,25 @@ namespace ChirrAltSkills.Chirr
                 "DESCLONE_SS2UCHIRR_SNACKY_KEYWORD"
             };
             AddPassive(passiveSnackiesSD);
+            ContentAddition.AddEntityState<PassiveSnackiesES>(out _);
 
             passiveBunnySD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_BUNNY");
             passiveBunnySD.icon = Assets.ChirrAssets.passiveLapinIcon;
             passiveBunnySD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveLapinES));
             AddPassive(passiveBunnySD);
+            ContentAddition.AddEntityState<PassiveLapinES>(out _);
 
             passiveSoulmateSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE");
             passiveSoulmateSD.icon = Assets.ChirrAssets.passiveSoulmateIcon;
             passiveSoulmateSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveSoulmateES));
             AddPassive(passiveSoulmateSD);
+            ContentAddition.AddEntityState<PassiveSoulmateES>(out _);
 
             passiveMinerSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_MINER");
             passiveMinerSD.icon = Assets.ChirrAssets.passiveMinerIcon;
             passiveMinerSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveMinerES));
             AddPassive(passiveMinerSD);
+            ContentAddition.AddEntityState<PassiveMinerES>(out _);
         }
         private static void SetupPrimary()
         {
@@ -197,6 +206,7 @@ namespace ChirrAltSkills.Chirr
             primaryDoubleTapSD.skillDescriptionToken = "COMMANDO_PRIMARY_DESCRIPTION";
             ContentAddition.AddSkillDef(primaryDoubleTapSD);
             ChirrMainHelpers.AddToSkillFamily(primaryDoubleTapSD, primarySF);
+            ContentAddition.AddEntityState<FireDoubleTap>(out _);
         }
         private static void SetupSpecial()
         {
@@ -207,6 +217,7 @@ namespace ChirrAltSkills.Chirr
             specialTransformSD.icon = Assets.ChirrAssets.specialTFIcon;
             ContentAddition.AddSkillDef(specialTransformSD);
             ChirrMainHelpers.AddToSkillFamily(specialTransformSD, skillLocator.special.skillFamily);
+            ContentAddition.AddEntityState<TransformEnemy>(out _);
 
             specialEatSD = ChirrMainHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_VORE");
             ChirrMainHelpers.CopySkillDefFields(tame, specialEatSD, false);
@@ -218,6 +229,7 @@ namespace ChirrAltSkills.Chirr
             };
             ContentAddition.AddSkillDef(specialEatSD);
             ChirrMainHelpers.AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
+            ContentAddition.AddEntityState<EatEnemy>(out _);
         }
     }
 }

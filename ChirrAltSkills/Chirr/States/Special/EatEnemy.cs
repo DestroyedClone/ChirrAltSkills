@@ -22,7 +22,7 @@ namespace ChirrAltSkills.Chirr.States.Special
             base.OnEnter();
             Util.PlaySound("SS2UChirrSpecial", gameObject);
 
-            if (!NetworkServer.active) return;
+            if (!characterBody.hasEffectiveAuthority) return;
             var buffCount = characterBody.GetBuffCount(Buffs.snackyBuff);
             var calculatedRadius = radius + radiusPerStack * buffCount;
             var cachedPosition = characterBody.corePosition;
@@ -36,7 +36,8 @@ namespace ChirrAltSkills.Chirr.States.Special
                 if (enemyCB.isBoss && !AllowBoss)
                     continue;
                 if (Vector3.Distance(enemyCB.corePosition, cachedPosition) > calculatedRadius)
-                    continue; var enemyHC = enemyCB.healthComponent;
+                    continue; 
+                var enemyHC = enemyCB.healthComponent;
                 if (!enemyHC || !enemyHC.alive || enemyHC.health <= 0 || enemyHC.combinedHealthFraction > 0.5f)
                     continue;
 

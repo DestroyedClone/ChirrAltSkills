@@ -5,7 +5,7 @@
 		"DESCLONE_SS2UCHIRR_PASSIVE_GLUTTON_NAME": "Gluttony",
 		"DESCLONE_SS2UCHIRR_PASSIVE_GLUTTON_DESC": "<style=cIsDamage>Snackies</style>. Gain <style=cIsDamage>2 permanent stacks</style> of <style=cIsDamage>snackies</style>, increasing by <style=cIsDamage>2 per stage</style>. Chirr can <style=cIsUtility>hover in the air</style> by holding the Jump key.",
 		"DESCLONE_SS2UCHIRR_PASSIVE_BUNNY_NAME": "Lapin",
-		"DESCLONE_SS2UCHIRR_PASSIVE_BUNNY_DESC": "Gain <style=cIsUtility>2 additional jumps</style>, but reduce <style=cIsHealth>jump power</style> by <style=cIsHealth>25%</style>. Chirr is <style=cIsUtility>immune</style> to fall damage.",
+		"DESCLONE_SS2UCHIRR_PASSIVE_BUNNY_DESC": "Gain <style=cIsUtility>2 additional jumps</style>, but reduce <style=cIsHealth>jump power</style> by <style=cIsHealth>25%</style>. <style=cIsUtility>Landing</style> increases your <style=cIsUtility>jump power</style> by <style=cIsUtility>+10% per stack</style> for <style=cIsUtility>10 seconds</style>. Chirr is <style=cIsUtility>immune</style> to fall damage.",
 		"DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE_NAME": "Companion",
 		"DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE_DESC": "<style=cIsUtility>Companionship</style>. If <style=cIsDamage>Commando(s)</style> are on your <style=cIsUtility>team</style>, <style=cIsUtility>gain increased stats</style>. If <style=cIsHealth>any Commando dies</style>, then stats will be <style=cIsHealth>temporarily depleted</style>. Chirr can <style=cIsUtility>hover in the air</style> by holding the Jump key.",
 		"DESCLONE_SS2UCHIRR_PASSIVE_MORB_NAME": "Void Corruption DONTUSE",

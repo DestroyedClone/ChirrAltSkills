@@ -15,6 +15,7 @@ namespace ChirrAltSkills
         public static BuffDef soulmateBuff;
         public static BuffDef goldRushBuff;
         public static BuffDef hoverDurationIndicatorBuff;
+        public static BuffDef lapinBuff;
 
         public static void Init()
         {
@@ -46,6 +47,11 @@ namespace ChirrAltSkills
                 //Get level health
                 args.healthMultAdd += 0.1f * soulmateBuffCount;
             }
+            var lapinCount = sender.GetBuffCount(lapinBuff);
+            if (lapinCount > 0)
+            {
+                args.jumpPowerMultAdd += 0.1f * lapinCount;
+            }
         }
 
         public static void CreateBuffs()
@@ -65,7 +71,6 @@ namespace ChirrAltSkills
             soulmateBuff.buffColor = Color.white;
             soulmateBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
             soulmateBuff.canStack = true;
-            soulmateBuff.iconSprite = null;
             soulmateBuff.isCooldown = false;
             soulmateBuff.isDebuff = false;
             soulmateBuff.isHidden = false;
@@ -82,7 +87,6 @@ namespace ChirrAltSkills
                 goldRushBuff.buffColor = Color.yellow;
                 goldRushBuff.iconSprite = Assets.ChirrAssets.buffGoldrushIcon;
                 goldRushBuff.canStack = true;
-                goldRushBuff.iconSprite = null;
                 goldRushBuff.isCooldown = false;
                 goldRushBuff.isDebuff = false;
                 goldRushBuff.isHidden = false;
@@ -90,15 +94,25 @@ namespace ChirrAltSkills
             }
 
             hoverDurationIndicatorBuff = ScriptableObject.CreateInstance<BuffDef>();
-            hoverDurationIndicatorBuff.name = "DCSS2UChirrSoulmate";
+            hoverDurationIndicatorBuff.name = "DCSS2UChirrHoverDurationRemaining";
             hoverDurationIndicatorBuff.buffColor = Color.white;
-            hoverDurationIndicatorBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
-            hoverDurationIndicatorBuff.canStack = true;
             hoverDurationIndicatorBuff.iconSprite = null;
+            hoverDurationIndicatorBuff.canStack = true;
             hoverDurationIndicatorBuff.isCooldown = false;
             hoverDurationIndicatorBuff.isDebuff = false;
             hoverDurationIndicatorBuff.isHidden = false;
             ContentAddition.AddBuffDef(hoverDurationIndicatorBuff);
+
+
+            lapinBuff = ScriptableObject.CreateInstance<BuffDef>();
+            lapinBuff.name = "DCSS2UChirrBoostJumpPower";
+            lapinBuff.buffColor = Color.white;
+            //lapinBuff.iconSprite = null;
+            lapinBuff.canStack = true;
+            lapinBuff.isCooldown = false;
+            lapinBuff.isDebuff = false;
+            lapinBuff.isHidden = false;
+            ContentAddition.AddBuffDef(lapinBuff);
         }
 
         private static void ChirrGoldRushRecalcStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)

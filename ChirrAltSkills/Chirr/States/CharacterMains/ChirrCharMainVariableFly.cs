@@ -36,6 +36,9 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private bool hoverOnCooldown = false;
 
         private static BuffDef indicatorBD => Buffs.hoverDurationIndicatorBuff;
+        private static BuffDef lapinBuff => Buffs.lapinBuff;
+
+        public bool isLapin = false;
 
         public void ChangeHoverMultiplier(float hoverVelocityMultiplier, float hoverAccelerationMultiplier)
         {
@@ -62,6 +65,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }
                 else if (skill.skillDef == ChirrMain.passiveBunnySD) {
                     ChangeHoverMultiplier(1, -1);
+                    isLapin = true;
+                    characterMotor.onHitGroundAuthority += LapinBoostOnLand_Server;
                 }
                 else if (skill.skillDef == ChirrMain.passiveMinerSD)
                 {
@@ -70,6 +75,13 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }
                 break;
             }
+        }
+
+        private void LapinBoostOnLand_Server(ref CharacterMotor.HitGroundInfo hitGroundInfo)
+        {
+            //Chat.AddMessage($"Landed");
+            if (NetworkServer.active)
+                characterBody.AddTimedBuff(lapinBuff, 10f);
         }
 
         public override void OnEnter()
@@ -208,10 +220,16 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             Util.PlaySound(wingSoundStop, gameObject);
 
             if (NetworkServer.active)
+            {
                 while (characterBody.HasBuff(indicatorBD))
                 {
                     characterBody.RemoveBuff(indicatorBD);
                 }
+                if (isLapin)
+                {
+                    characterMotor.onHitGroundAuthority -= LapinBoostOnLand_Server;
+                }
+            }
             if (characterMotor && hoverHasDuration)
             {
                 characterMotor.onHitGroundAuthority -= ResetHoverCooldown;
