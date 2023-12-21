@@ -1,13 +1,13 @@
-﻿using System;
-using System.Security.Permissions;
-using System.Security;
-using BepInEx;
+﻿using BepInEx;
 using ChirrAltSkills.Chirr;
+using System.Security;
+using System.Security.Permissions;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
 [module: UnverifiableCode]
+
 namespace ChirrAltSkills
 {
     [BepInDependency("com.ChirrLover.Starstorm2Unofficial", BepInDependency.DependencyFlags.HardDependency)]
@@ -18,7 +18,7 @@ namespace ChirrAltSkills
     {
         internal static BepInEx.Logging.ManualLogSource _logger;
         internal static BepInEx.Configuration.ConfigFile _config;
-        const string LastDllVersion = "0.16.4";
+        private const string LastDllVersion = "0.16.4";
         public static PluginInfo PInfo { get; set; }
 
         public static bool modloaded_Miner = false;

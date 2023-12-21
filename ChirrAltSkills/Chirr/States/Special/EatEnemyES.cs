@@ -1,12 +1,7 @@
 ﻿using EntityStates;
-using Starstorm2Unofficial.Survivors.Chirr.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using RoR2;
-using RoR2.Skills;
-using UnityEngine.Networking;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
@@ -36,7 +31,7 @@ namespace ChirrAltSkills.Chirr.States.Special
                 if (enemyCB.isBoss && !AllowBoss)
                     continue;
                 if (Vector3.Distance(enemyCB.corePosition, cachedPosition) > calculatedRadius)
-                    continue; 
+                    continue;
                 var enemyHC = enemyCB.healthComponent;
                 if (!enemyHC || !enemyHC.alive || enemyHC.health <= 0 || enemyHC.combinedHealthFraction > 0.5f)
                     continue;

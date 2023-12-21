@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntityStates;
+﻿using EntityStates;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {

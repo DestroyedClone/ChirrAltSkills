@@ -1,14 +1,11 @@
 ﻿using EntityStates;
+using EntityStates.GummyClone;
+using RoR2;
 using Starstorm2Unofficial.Survivors.Chirr.Components;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using RoR2;
-using RoR2.Skills;
-using UnityEngine.Networking;
 using UnityEngine;
 using UnityEngine.Events;
-using EntityStates.GummyClone;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
@@ -91,7 +88,6 @@ namespace ChirrAltSkills.Chirr.States.Special
                                 }
                             }
                         }
-
                     }));
                     var outcome = DirectorCore.instance.TrySpawnObject(directorSpawnRequest);
                     UnityEngine.Object.Destroy(masterCopySpawnCard);

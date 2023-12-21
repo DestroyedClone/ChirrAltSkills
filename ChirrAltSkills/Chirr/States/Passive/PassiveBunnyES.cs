@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ChirrAltSkills.Chirr.States.CharacterMains;
-using EntityStates;
+﻿using EntityStates;
 using RoR2;
 
 namespace ChirrAltSkills.Chirr.States.Passive

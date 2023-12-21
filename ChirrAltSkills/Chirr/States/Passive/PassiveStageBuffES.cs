@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EntityStates;
 using RoR2;
-using EntityStates;
 using UnityEngine.Networking;
-using ChirrAltSkills.Chirr.States.CharacterMains;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {

@@ -1,26 +1,14 @@
-﻿using Starstorm2Unofficial.Modules;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using System.Reflection;
-using R2API;
-using UnityEngine;
-using System.IO;
-using UnityEngine.Networking;
-using RoR2;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using UnityEngine.AddressableAssets;
-using BepInEx;
 
 namespace ChirrAltSkills
 {
     public static class Assets
     {
-
         public static AssetBundle mainAssetBundle = null;
 
         public const string bundleName = "chirraltskillsassetbundle";
+
         public static string AssetBundlePath
         {
             get
@@ -28,7 +16,6 @@ namespace ChirrAltSkills
                 return System.IO.Path.Combine(System.IO.Path.GetDirectoryName(CASPlugin.PInfo.Location), bundleName);
             }
         }
-
 
         public static T LoadAddressable<T>(string path)
         {
@@ -40,6 +27,7 @@ namespace ChirrAltSkills
             PopulateAssets();
             ChirrAssets.Init();
         }
+
         public static void PopulateAssets()
         {
             mainAssetBundle = AssetBundle.LoadFromFile(AssetBundlePath);

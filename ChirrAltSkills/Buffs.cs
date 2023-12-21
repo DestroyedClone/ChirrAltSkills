@@ -1,10 +1,6 @@
 ﻿using ChirrAltSkills.Chirr;
 using R2API;
 using RoR2;
-using Starstorm2Unofficial;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace ChirrAltSkills
@@ -102,7 +98,6 @@ namespace ChirrAltSkills
             hoverDurationIndicatorBuff.isDebuff = false;
             hoverDurationIndicatorBuff.isHidden = false;
             ContentAddition.AddBuffDef(hoverDurationIndicatorBuff);
-
 
             bunnyBuff = ScriptableObject.CreateInstance<BuffDef>();
             bunnyBuff.name = "DCSS2UChirrBunny";

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntityStates;
-using UnityEngine;
+﻿using EntityStates;
 using RoR2;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Passive

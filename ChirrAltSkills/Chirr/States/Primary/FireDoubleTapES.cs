@@ -1,10 +1,9 @@
-﻿using System;
+﻿using EntityStates;
+using EntityStates.Commando.CommandoWeapon;
+using EntityStates.SS2UStates.Chirr;
 using RoR2;
 using RoR2.Skills;
 using UnityEngine;
-using EntityStates;
-using EntityStates.Commando.CommandoWeapon;
-using EntityStates.SS2UStates.Chirr;
 
 namespace ChirrAltSkills.Chirr.States.Primary
 {
@@ -21,7 +20,6 @@ namespace ChirrAltSkills.Chirr.States.Primary
             if (ChirrPrimary.muzzleflashEffectPrefab)
             {
                 EffectManager.SimpleMuzzleFlash(ChirrPrimary.muzzleflashEffectPrefab, gameObject, targetMuzzle, false);
-
             }
             AddRecoil(-0.4f * FirePistol2.recoilAmplitude, -0.8f * FirePistol2.recoilAmplitude, -0.3f * FirePistol2.recoilAmplitude, 0.3f * FirePistol2.recoilAmplitude);
             if (isAuthority)

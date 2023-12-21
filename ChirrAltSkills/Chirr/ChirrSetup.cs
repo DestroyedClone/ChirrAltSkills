@@ -1,20 +1,17 @@
-﻿using RoR2.Skills;
-using RoR2;
-using Starstorm2Unofficial.Survivors.Chirr;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static RoR2.SkillLocator;
-using R2API;
-using ChirrAltSkills.Chirr.States;
-using UnityEngine.Networking;
-using UnityEngine.AddressableAssets;
-using ChirrAltSkills.Chirr.States.Passive;
-using ChirrAltSkills.Chirr.States.Special;
-using ChirrAltSkills.Chirr.States.Primary;
+﻿using ChirrAltSkills.Chirr.States;
 using ChirrAltSkills.Chirr.States.CharacterMains;
+using ChirrAltSkills.Chirr.States.Passive;
 using ChirrAltSkills.Chirr.States.Passive.Hover;
+using ChirrAltSkills.Chirr.States.Primary;
+using ChirrAltSkills.Chirr.States.Special;
+using R2API;
+using RoR2;
+using RoR2.Skills;
+using Starstorm2Unofficial.Survivors.Chirr;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr
 {
@@ -42,7 +39,7 @@ namespace ChirrAltSkills.Chirr
         public static SkillDef specialEatSD;
 
         public static List<CharacterBody> chirrSoulmates = new List<CharacterBody>();
-        public static List<CharacterBody> commandoSoulmates = new List<CharacterBody> ();
+        public static List<CharacterBody> commandoSoulmates = new List<CharacterBody>();
 
         public static BodyIndex commandoBodyIndex;
 
@@ -139,6 +136,7 @@ namespace ChirrAltSkills.Chirr
             ContentAddition.AddEntityState<VariableHoverOn>(out _);
 
             #region Creating Passive
+
             passiveSkill = bodyPrefab.AddComponent<GenericSkill>();
             passiveSkillFamily = ScriptableObject.CreateInstance<SkillFamily>();
             (passiveSkillFamily as ScriptableObject).name = "DCSS2UChirrPassive";
@@ -153,8 +151,11 @@ namespace ChirrAltSkills.Chirr
             ContentAddition.AddEntityState<ESMCallSkillDefOnStartES>(out _);
 
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
-            #endregion
+
+            #endregion Creating Passive
+
             #region None
+
             passiveDefaultSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_TAKEFLIGHT");
             passiveDefaultSD.skillNameToken = skillLocator.passiveSkill.skillNameToken;
             passiveDefaultSD.skillName = passiveDefaultSD.skillNameToken;
@@ -164,7 +165,8 @@ namespace ChirrAltSkills.Chirr
             skillLocator.passiveSkill.enabled = false;
             AddPassive(passiveDefaultSD);
             ContentAddition.AddEntityState<PassiveTakeFlightES>(out _);
-            #endregion
+
+            #endregion None
 
             passiveStageBuffSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
             passiveStageBuffSD.icon = Assets.ChirrAssets.passiveEcosystemIcon;
@@ -200,6 +202,7 @@ namespace ChirrAltSkills.Chirr
             AddPassive(passiveDiggerSD);
             ContentAddition.AddEntityState<PassiveDiggerES>(out _);
         }
+
         private static void SetupPrimary()
         {
             var primarySF = skillLocator.primary.skillFamily;
@@ -219,6 +222,7 @@ namespace ChirrAltSkills.Chirr
             ChirrSetupHelpers.AddToSkillFamily(primaryDoubleTapSD, primarySF);
             ContentAddition.AddEntityState<FireDoubleTapES>(out _);
         }
+
         private static void SetupSpecial()
         {
             specialTransformSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_TRANSFORM");

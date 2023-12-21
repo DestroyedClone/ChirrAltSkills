@@ -1,7 +1,5 @@
 ﻿using RoR2;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace ChirrAltSkills.Chirr
@@ -13,7 +11,7 @@ namespace ChirrAltSkills.Chirr
          * Sun lets me photosynthesize, Increase Regen! Increase Health!
          * Chirr is Chirr, so she'll at minimum get minStats for everything.
          * Boss stages get maxed.
-         * 
+         *
          * Armor:
          *  Tar and Corrosion is maxed, REALLY gotta prevent that.
          *  Cold is medium, biologically reasonable
@@ -47,7 +45,6 @@ namespace ChirrAltSkills.Chirr
             public const float minHover = 0.25f;
             public const float medHover = 0.5f;
             public const float maxHover = 1.0f;
-
 
             public const int moveSpeedMaxStagesCleared = 10;
             public const float stageMultiplierStagesCleared = 0.2f;
@@ -295,7 +292,6 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.medRegen,
             hover = StageBuffInfo.medHover,
         };
-
 
         public static StageBuffInfo[] stageBuffInfos =
         {

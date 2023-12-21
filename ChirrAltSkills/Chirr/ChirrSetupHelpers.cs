@@ -4,7 +4,6 @@ using UnityEngine;
 
 internal static class ChirrSetupHelpers
 {
-
     public static void AddToSkillFamily(SkillDef skillDef, SkillFamily skillFamily, UnlockableDef unlockableDef = null)
     {
         HG.ArrayUtils.ArrayAppend(ref skillFamily.variants, new SkillFamily.Variant

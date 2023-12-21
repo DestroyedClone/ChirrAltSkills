@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
-using EntityStates;
+﻿using EntityStates;
 using EntityStates.Mage;
+using UnityEngine;
 
 namespace ChirrAltSkills.Chirr.States.Passive.Hover
 {

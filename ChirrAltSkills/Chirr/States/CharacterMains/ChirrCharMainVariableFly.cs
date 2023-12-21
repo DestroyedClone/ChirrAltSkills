@@ -1,13 +1,10 @@
-﻿using RoR2;
-using UnityEngine;
+﻿using ChirrAltSkills.Chirr.States.Passive.Hover;
 using EntityStates;
-using RoR2.CharacterAI;
-using System.Linq;
-using System.Collections.Generic;
-using UnityEngine.Networking;
+using RoR2;
 using Starstorm2Unofficial.Survivors.Chirr;
 using Starstorm2Unofficial.Survivors.Chirr.Components;
-using ChirrAltSkills.Chirr.States.Passive.Hover;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.CharacterMains
 {
@@ -30,6 +27,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
 
         //Set by ChangeHoverMultiplier, do not set manually.
         private bool canHover = true;
+
         private bool hoverHasDuration = false;
         private float hoverDuration = -1;
         private float hoverStopwatch = 0;
@@ -63,7 +61,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
 
                     ChangeHoverMultiplier(1, accelMult);
                 }
-                else if (skill.skillDef == ChirrSetup.passiveBunnySD) {
+                else if (skill.skillDef == ChirrSetup.passiveBunnySD)
+                {
                     ChangeHoverMultiplier(1, -1);
                     isLapin = true;
                     characterMotor.onHitGroundAuthority += LapinBoostOnLand_Server;
@@ -147,7 +146,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             {
                 bool inputPressed = inputBank.jump.down && characterMotor.velocity.y < 0f && !characterMotor.isGrounded;
                 if (canHover
-                    && inputPressed 
+                    && inputPressed
                     && !inJetpackState
                     && (!hoverHasDuration || !hoverOnCooldown)
                     )
@@ -175,7 +174,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             base.FixedUpdate();
 
             inJetpackState = jetpackStateMachine && jetpackStateMachine.state.GetType() == typeof(VariableHoverOn);
-            bool shouldPlayWingSound = inJetpackState;//base.characterBody.isSprinting || 
+            bool shouldPlayWingSound = inJetpackState;//base.characterBody.isSprinting ||
             if (shouldPlayWingSound != playingWingSound)
             {
                 if (!playingWingSound)
