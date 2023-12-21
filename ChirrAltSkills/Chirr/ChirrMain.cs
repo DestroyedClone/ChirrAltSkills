@@ -14,6 +14,7 @@ using ChirrAltSkills.Chirr.States.Passive;
 using ChirrAltSkills.Chirr.States.Special;
 using ChirrAltSkills.Chirr.States.Primary;
 using ChirrAltSkills.Chirr.States.CharacterMains;
+using ChirrAltSkills.Chirr.States.Passive.Hover;
 
 namespace ChirrAltSkills.Chirr
 {
@@ -43,7 +44,7 @@ namespace ChirrAltSkills.Chirr
         public static List<CharacterBody> chirrSoulmates = new List<CharacterBody>();
         public static List<CharacterBody> commandoSoulmates = new List<CharacterBody> ();
 
-
+        public static BodyIndex commandoBodyIndex;
 
         public static void Init()
         {
@@ -59,8 +60,15 @@ namespace ChirrAltSkills.Chirr
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
             Run.onServerGameOver += Run_onServerGameOver;
+            On.RoR2.BodyCatalog.Init += CacheBodyIndex;
 
             ChirrStageBuffInfo.Init();
+        }
+
+        private static void CacheBodyIndex(On.RoR2.BodyCatalog.orig_Init orig)
+        {
+            orig();
+            commandoBodyIndex = BodyCatalog.FindBodyIndex("CommandoBody");
         }
 
         private static void RevertBaseChanges()
@@ -101,7 +109,7 @@ namespace ChirrAltSkills.Chirr
         {
             if (!NetworkServer.active) return;
             if (!body || !body.master) return;
-            if (body.bodyIndex == BodyCatalog.FindBodyIndex("CommandoBody"))
+            if (body.bodyIndex == commandoBodyIndex && !commandoSoulmates.Contains(body))
             {
                 commandoSoulmates.Add(body);
                 return;
@@ -128,6 +136,7 @@ namespace ChirrAltSkills.Chirr
                 ContentAddition.AddSkillDef(skillDef);
             }
             ContentAddition.AddEntityState<ChirrCharMainVariableFly>(out _);
+            ContentAddition.AddEntityState<VariableHoverOn>(out _);
 
             #region Creating Passive
             passiveSkill = bodyPrefab.AddComponent<GenericSkill>();
@@ -204,6 +213,8 @@ namespace ChirrAltSkills.Chirr
             primaryDoubleTapSD.icon = Addressables.LoadAssetAsync<SkillDef>("RoR2/Base/Commando/CommandoBodyFirePistol.asset").WaitForCompletion().icon;
             primaryDoubleTapSD.activationState = new EntityStates.SerializableEntityStateType(typeof(FireDoubleTap));
             primaryDoubleTapSD.skillDescriptionToken = "COMMANDO_PRIMARY_DESCRIPTION";
+            primaryDoubleTapSD.stepCount = 2;
+            primaryDoubleTapSD.stepGraceDuration = 0.1f;
             ContentAddition.AddSkillDef(primaryDoubleTapSD);
             ChirrMainHelpers.AddToSkillFamily(primaryDoubleTapSD, primarySF);
             ContentAddition.AddEntityState<FireDoubleTap>(out _);

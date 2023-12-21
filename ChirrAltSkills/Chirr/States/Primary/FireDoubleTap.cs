@@ -18,9 +18,9 @@ namespace ChirrAltSkills.Chirr.States.Primary
         private void FireBullet(string targetMuzzle)
         {
             Util.PlaySound(FirePistol2.firePistolSoundString, gameObject);
-            if (FirePistol2.muzzleEffectPrefab)
+            if (ChirrPrimary.muzzleflashEffectPrefab)
             {
-                EffectManager.SimpleMuzzleFlash(FirePistol2.muzzleEffectPrefab, gameObject, targetMuzzle, false);
+                EffectManager.SimpleMuzzleFlash(ChirrPrimary.muzzleflashEffectPrefab, gameObject, targetMuzzle, false);
 
             }
             AddRecoil(-0.4f * FirePistol2.recoilAmplitude, -0.8f * FirePistol2.recoilAmplitude, -0.3f * FirePistol2.recoilAmplitude, 0.3f * FirePistol2.recoilAmplitude);
@@ -65,11 +65,9 @@ namespace ChirrAltSkills.Chirr.States.Primary
             PlayCrossfade("Gesture, Additive", "Primary", "Primary.playbackRate", duration, 0.1f);
             if (pistol % 2 == 0)
             {
-                EffectManager.SimpleMuzzleFlash(ChirrPrimary.muzzleflashEffectPrefab, gameObject, "MuzzleWingL", false);
                 FireBullet("MuzzleWingL");
                 return;
             }
-            EffectManager.SimpleMuzzleFlash(ChirrPrimary.muzzleflashEffectPrefab, gameObject, "MuzzleWingR", false);
             FireBullet("MuzzleWingR");
         }
 

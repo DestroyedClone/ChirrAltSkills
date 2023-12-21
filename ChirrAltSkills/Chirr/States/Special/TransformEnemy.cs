@@ -20,7 +20,7 @@ namespace ChirrAltSkills.Chirr.States.Special
         {
             base.OnEnter();
             Util.PlaySound("SS2UChirrSpecial", gameObject);
-            if (characterBody.hasEffectiveAuthority)
+            if (NetworkServer.active)
             {
                 foreach (var enemy in CharacterMaster.readOnlyInstancesList)
                 {

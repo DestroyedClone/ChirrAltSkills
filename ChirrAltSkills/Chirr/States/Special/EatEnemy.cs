@@ -22,7 +22,7 @@ namespace ChirrAltSkills.Chirr.States.Special
             base.OnEnter();
             Util.PlaySound("SS2UChirrSpecial", gameObject);
 
-            if (!characterBody.hasEffectiveAuthority) return;
+            if (!NetworkServer.active) return;
             var buffCount = characterBody.GetBuffCount(Buffs.snackyBuff);
             var calculatedRadius = radius + radiusPerStack * buffCount;
             var cachedPosition = characterBody.corePosition;

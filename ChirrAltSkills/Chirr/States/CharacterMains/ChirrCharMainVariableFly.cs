@@ -35,8 +35,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private float hoverStopwatch = 0;
         private bool hoverOnCooldown = false;
 
-        private static BuffDef indicatorBD => Buffs.hoverDurationIndicatorBuff;
-        private static BuffDef lapinBuff => Buffs.lapinBuff;
+        private static BuffDef IndicatorBuff => Buffs.hoverDurationIndicatorBuff;
+        private static BuffDef LapinBuff => Buffs.lapinBuff;
 
         public bool isLapin = false;
 
@@ -75,13 +75,20 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }
                 break;
             }
+            if (hoverHasDuration)
+            {
+                characterMotor.onHitGroundServer += ClearIndicatorBuffOnLandingServer;
+            }
+        }
+
+        private void ClearIndicatorBuffOnLandingServer(ref CharacterMotor.HitGroundInfo hitGroundInfo)
+        {
+            characterBody.ClearTimedBuffs(IndicatorBuff);
         }
 
         private void LapinBoostOnLand_Server(ref CharacterMotor.HitGroundInfo hitGroundInfo)
         {
-            //Chat.AddMessage($"Landed");
-            if (NetworkServer.active)
-                characterBody.AddTimedBuff(lapinBuff, 10f);
+            characterBody.AddTimedBuffAuthority(LapinBuff.buffIndex, 10f);
         }
 
         public override void OnEnter()
@@ -126,9 +133,9 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             hoverStopwatch = hoverDuration;
             hoverOnCooldown = false;
             if (NetworkServer.active)
-                while (characterBody.HasBuff(indicatorBD))
+                while (characterBody.HasBuff(IndicatorBuff))
                 {
-                    characterBody.RemoveBuff(indicatorBD);
+                    characterBody.RemoveBuff(IndicatorBuff);
                 }
         }
 
@@ -150,11 +157,11 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                         hoverVelocityMultiplier = hoverVelocityMultiplier,
                         hoverAccelerationMultiplier = hoverAccelerationMultiplier
                     });
-                    if (NetworkServer.active)
-                        for (int i = 0; i < hoverDuration + 1; i++)
-                        {
-                            characterBody.AddBuff(indicatorBD);
-                        }
+                    //if NetworkServer.active of course it wont run under an authority check
+                    for (int i = 0; i < hoverDuration + 1; i++)
+                    {
+                        characterBody.AddTimedBuffAuthority(IndicatorBuff.buffIndex, hoverDuration - i);
+                    }
                 }
                 if (inJetpackState && (!inputPressed || !canHover || hoverOnCooldown))
                 {
@@ -188,14 +195,14 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             if (hoverHasDuration && inJetpackState && !hoverOnCooldown)
             {
                 hoverStopwatch -= Time.fixedDeltaTime;
-                if (NetworkServer.active)
+                /*if (NetworkServer.active)
                 {
-                    var buffCount = characterBody.GetBuffCount(indicatorBD);
+                    var buffCount = characterBody.GetBuffCount(IndicatorBuff);
                     if (buffCount > hoverStopwatch + 1 && buffCount > 0)
                     {
-                        characterBody.RemoveBuff(indicatorBD);
+                        characterBody.RemoveBuff(IndicatorBuff);
                     }
-                }
+                }*/
                 hoverOnCooldown = hoverStopwatch <= 0;
             }
 
@@ -221,9 +228,9 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
 
             if (NetworkServer.active)
             {
-                while (characterBody.HasBuff(indicatorBD))
+                while (characterBody.HasBuff(IndicatorBuff))
                 {
-                    characterBody.RemoveBuff(indicatorBD);
+                    characterBody.RemoveBuff(IndicatorBuff);
                 }
                 if (isLapin)
                 {
