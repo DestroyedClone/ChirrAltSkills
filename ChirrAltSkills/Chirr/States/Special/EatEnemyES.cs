@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
-    internal class EatEnemy : BaseState
+    internal class EatEnemyES : BaseState
     {
         public float radius = 5;
         public float radiusPerStack = 1;
@@ -23,7 +23,7 @@ namespace ChirrAltSkills.Chirr.States.Special
             Util.PlaySound("SS2UChirrSpecial", gameObject);
 
             if (!NetworkServer.active) return;
-            var buffCount = characterBody.GetBuffCount(Buffs.snackyBuff);
+            var buffCount = characterBody.GetBuffCount(Buffs.snackiesBuff);
             var calculatedRadius = radius + radiusPerStack * buffCount;
             var cachedPosition = characterBody.corePosition;
             foreach (var enemy in CharacterMaster.readOnlyInstancesList)
@@ -44,7 +44,7 @@ namespace ChirrAltSkills.Chirr.States.Special
                 var remainingHealthFraction = enemyHC.combinedHealthFraction;
                 int buffsToGive = Mathf.CeilToInt(remainingHealthFraction * 10);
                 for (int i = 0; i < buffsToGive; i++)
-                    characterBody.AddTimedBuff(Buffs.snackyBuff, duration);
+                    characterBody.AddTimedBuff(Buffs.snackiesBuff, duration);
 
                 EffectData effectData = new EffectData();
                 effectData.origin = transform.position;
@@ -55,10 +55,6 @@ namespace ChirrAltSkills.Chirr.States.Special
                 enemyHC.Suicide(characterBody.gameObject);
                 break;
             }
-            /*if (!foundTarget)
-            {
-                skillLocator.special.AddOneStock();
-            }*/
             outer.SetNextStateToMain();
         }
     }

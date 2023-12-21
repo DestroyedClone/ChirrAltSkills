@@ -36,7 +36,7 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private bool hoverOnCooldown = false;
 
         private static BuffDef IndicatorBuff => Buffs.hoverDurationIndicatorBuff;
-        private static BuffDef LapinBuff => Buffs.lapinBuff;
+        private static BuffDef LapinBuff => Buffs.bunnyBuff;
 
         public bool isLapin = false;
 
@@ -56,19 +56,19 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             {
                 if (!skill || !skill.skillFamily || (skill.skillFamily as ScriptableObject).name != "DCSS2UChirrPassive")
                     continue;
-                if (skill.skillDef == ChirrMain.passiveEcosystemSD)
+                if (skill.skillDef == ChirrSetup.passiveStageBuffSD)
                 {
                     var mult = ChirrStageBuffInfo.GetStageHoverMultiplier();
                     var accelMult = Mathf.Max(1f, 1 / mult);
 
                     ChangeHoverMultiplier(1, accelMult);
                 }
-                else if (skill.skillDef == ChirrMain.passiveBunnySD) {
+                else if (skill.skillDef == ChirrSetup.passiveBunnySD) {
                     ChangeHoverMultiplier(1, -1);
                     isLapin = true;
                     characterMotor.onHitGroundAuthority += LapinBoostOnLand_Server;
                 }
-                else if (skill.skillDef == ChirrMain.passiveMinerSD)
+                else if (skill.skillDef == ChirrSetup.passiveDiggerSD)
                 {
                     hoverHasDuration = true;
                     hoverDuration = 5f;

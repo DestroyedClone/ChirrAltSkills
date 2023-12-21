@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {
-    internal class PassiveSnackiesES : EntityState
+    internal class PassiveSnackiesPerStageES : EntityState
     {
         public override void OnEnter()
         {
@@ -17,7 +17,7 @@ namespace ChirrAltSkills.Chirr.States.Passive
             var buffCount = 2 + stageClearCount * 2;
             for (int i = 0; i < buffCount; i++)
             {
-                characterBody.AddBuff(Buffs.snackyBuff);
+                characterBody.AddBuff(Buffs.snackiesBuff);
             }
         }
     }

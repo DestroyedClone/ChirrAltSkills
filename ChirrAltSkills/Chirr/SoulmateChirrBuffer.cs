@@ -20,7 +20,7 @@ namespace ChirrAltSkills.Chirr
             {
                 stopwatch = timer;
                 var buffCount = body.GetBuffCount(Buffs.soulmateBuff);
-                var difference = ChirrMain.commandoSoulmates.Count - buffCount;
+                var difference = ChirrSetup.commandoSoulmates.Count - buffCount;
                 if (difference > 0)
                 {
                     for (int i = 0; i < difference; i++)

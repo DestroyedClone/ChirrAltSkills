@@ -34,7 +34,7 @@ namespace ChirrAltSkills
 
             Assets.Init();
             Buffs.Init();
-            ChirrMain.Init();
+            ChirrSetup.Init();
         }
     }
 }

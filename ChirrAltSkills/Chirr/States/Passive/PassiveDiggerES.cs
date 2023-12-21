@@ -9,17 +9,17 @@ using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {
-    internal class PassiveMinerES : EntityState
+    internal class PassiveDiggerES : EntityState
     {
         public override void OnEnter()
         {
             base.OnEnter();
-            var comp = characterBody.gameObject.AddComponent<MinerCloneComponent>();
+            var comp = characterBody.gameObject.AddComponent<DiggerCloneComponent>();
             comp.characterBody = characterBody;
         }
     }
 
-    public class MinerCloneComponent : MonoBehaviour
+    public class DiggerCloneComponent : MonoBehaviour
     {
         private float adrenalineGainBuffer;
         private float adrenalineCap;

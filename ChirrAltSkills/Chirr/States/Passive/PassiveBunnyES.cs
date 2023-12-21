@@ -7,7 +7,7 @@ using RoR2;
 
 namespace ChirrAltSkills.Chirr.States.Passive
 {
-    internal class PassiveLapinES : EntityState
+    internal class PassiveBunnyES : EntityState
     {
         public override void OnEnter()
         {

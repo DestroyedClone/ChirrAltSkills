@@ -12,7 +12,7 @@ using EntityStates.GummyClone;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
-    internal class TransformEnemy : BaseState
+    internal class TransformEnemyES : BaseState
     {
         public virtual bool AllowBoss => false;
 

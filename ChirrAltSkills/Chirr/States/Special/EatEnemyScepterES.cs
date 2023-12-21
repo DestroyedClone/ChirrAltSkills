@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
-    internal class TransformEnemyScepter : TransformEnemy
+    internal class EatEnemyScepterES : EatEnemyES
     {
         public override bool AllowBoss => true;
     }

@@ -28,6 +28,7 @@
 	
 	<ItemGroup>
 	  <Folder Include="Chirr\Skills\" />
+	  <Folder Include="Chirr\States\Secondary\" />
 	  <Folder Include="Chirr\States\Utility\" />
 	  <Folder Include="language\de\" />
 	  <Folder Include="language\es-ES\" />

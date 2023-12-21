@@ -11,11 +11,11 @@ namespace ChirrAltSkills
 {
     internal class Buffs
     {
-        public static BuffDef snackyBuff;
+        public static BuffDef snackiesBuff;
         public static BuffDef soulmateBuff;
         public static BuffDef goldRushBuff;
         public static BuffDef hoverDurationIndicatorBuff;
-        public static BuffDef lapinBuff;
+        public static BuffDef bunnyBuff;
 
         public static void Init()
         {
@@ -26,7 +26,7 @@ namespace ChirrAltSkills
 
         private static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
         {
-            var snackyBuffCount = sender.GetBuffCount(snackyBuff);
+            var snackyBuffCount = sender.GetBuffCount(snackiesBuff);
             if (snackyBuffCount > 0)
             {
                 args.armorAdd += 0.005f * snackyBuffCount;
@@ -37,7 +37,7 @@ namespace ChirrAltSkills
                 //args.utilityCooldownMultAdd += 0.1f * buffCount;
                 //Relicofmass
                 //sender.acceleration = sender.baseAcceleration / (snackyBuffCount * StaticValues.massFactor / 2);
-                sender.characterMotor.mass = ChirrMain.cachedMass + (ChirrMain.cachedMass / 4 * snackyBuffCount);
+                sender.characterMotor.mass = ChirrSetup.cachedMass + (ChirrSetup.cachedMass / 4 * snackyBuffCount);
             }
             var soulmateBuffCount = sender.GetBuffCount(soulmateBuff);
             if (soulmateBuffCount > 0)
@@ -47,7 +47,7 @@ namespace ChirrAltSkills
                 //Get level health
                 args.healthMultAdd += 0.1f * soulmateBuffCount;
             }
-            var lapinCount = sender.GetBuffCount(lapinBuff);
+            var lapinCount = sender.GetBuffCount(bunnyBuff);
             if (lapinCount > 0)
             {
                 args.jumpPowerMultAdd += 0.1f * lapinCount;
@@ -56,15 +56,15 @@ namespace ChirrAltSkills
 
         public static void CreateBuffs()
         {
-            snackyBuff = ScriptableObject.CreateInstance<BuffDef>();
-            snackyBuff.name = "DCSS2UChirrSnackies";
-            snackyBuff.buffColor = Color.white;
-            snackyBuff.canStack = true;
-            snackyBuff.iconSprite = Assets.ChirrAssets.buffSnackiesIcon;
-            snackyBuff.isCooldown = false;
-            snackyBuff.isDebuff = false;
-            snackyBuff.isHidden = false;
-            ContentAddition.AddBuffDef(snackyBuff);
+            snackiesBuff = ScriptableObject.CreateInstance<BuffDef>();
+            snackiesBuff.name = "DCSS2UChirrSnackies";
+            snackiesBuff.buffColor = Color.white;
+            snackiesBuff.canStack = true;
+            snackiesBuff.iconSprite = Assets.ChirrAssets.buffSnackiesIcon;
+            snackiesBuff.isCooldown = false;
+            snackiesBuff.isDebuff = false;
+            snackiesBuff.isHidden = false;
+            ContentAddition.AddBuffDef(snackiesBuff);
 
             soulmateBuff = ScriptableObject.CreateInstance<BuffDef>();
             soulmateBuff.name = "DCSS2UChirrSoulmate";
@@ -104,15 +104,15 @@ namespace ChirrAltSkills
             ContentAddition.AddBuffDef(hoverDurationIndicatorBuff);
 
 
-            lapinBuff = ScriptableObject.CreateInstance<BuffDef>();
-            lapinBuff.name = "DCSS2UChirrBoostJumpPower";
-            lapinBuff.buffColor = Color.white;
+            bunnyBuff = ScriptableObject.CreateInstance<BuffDef>();
+            bunnyBuff.name = "DCSS2UChirrBunny";
+            bunnyBuff.buffColor = Color.white;
             //lapinBuff.iconSprite = null;
-            lapinBuff.canStack = true;
-            lapinBuff.isCooldown = false;
-            lapinBuff.isDebuff = false;
-            lapinBuff.isHidden = false;
-            ContentAddition.AddBuffDef(lapinBuff);
+            bunnyBuff.canStack = true;
+            bunnyBuff.isCooldown = false;
+            bunnyBuff.isDebuff = false;
+            bunnyBuff.isHidden = false;
+            ContentAddition.AddBuffDef(bunnyBuff);
         }
 
         private static void ChirrGoldRushRecalcStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)

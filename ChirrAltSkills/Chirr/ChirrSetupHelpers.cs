@@ -2,7 +2,7 @@
 using RoR2.Skills;
 using UnityEngine;
 
-internal static class ChirrMainHelpers
+internal static class ChirrSetupHelpers
 {
 
     public static void AddToSkillFamily(SkillDef skillDef, SkillFamily skillFamily, UnlockableDef unlockableDef = null)

@@ -17,6 +17,10 @@ namespace ChirrAltSkills.Chirr.States.Passive
             var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             var info = ChirrStageBuffInfo.GetStageBuffInfo(currentScene.name);
             info.Apply(characterBody);
+            if (characterBody.hasEffectiveAuthority)
+            {
+                Chat.AddMessage($"");
+            }
         }
     }
 }

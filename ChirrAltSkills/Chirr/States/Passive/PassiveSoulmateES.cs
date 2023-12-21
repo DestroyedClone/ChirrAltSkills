@@ -11,10 +11,10 @@ namespace ChirrAltSkills.Chirr.States.Passive
         {
             base.OnEnter();
 
-            if (ChirrMain.chirrSoulmates.Contains(characterBody))
+            if (ChirrSetup.chirrSoulmates.Contains(characterBody))
                 return;
 
-            ChirrMain.chirrSoulmates.Add(characterBody);
+            ChirrSetup.chirrSoulmates.Add(characterBody);
             characterBody.AddComponent<SoulmateChirrBuffer>().body = characterBody;
         }
     }

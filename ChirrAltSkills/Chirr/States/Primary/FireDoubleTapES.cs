@@ -8,7 +8,7 @@ using EntityStates.SS2UStates.Chirr;
 
 namespace ChirrAltSkills.Chirr.States.Primary
 {
-    public class FireDoubleTap : BaseSkillState, SteppedSkillDef.IStepSetter
+    public class FireDoubleTapES : BaseSkillState, SteppedSkillDef.IStepSetter
     {
         void SteppedSkillDef.IStepSetter.SetStep(int i)
         {
