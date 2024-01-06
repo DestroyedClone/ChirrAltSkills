@@ -1,6 +1,5 @@
 ﻿using BepInEx;
 using ChirrAltSkills.Chirr;
-using System.Diagnostics;
 using System.Security;
 using System.Security.Permissions;
 
@@ -37,14 +36,6 @@ namespace ChirrAltSkills
             Buffs.Init();
             DamageTypes.Init();
             ChirrSetup.Init();
-            //On.EntityStates.TestState1.OnEnter += TestState1_OnEnter;
-        }
-
-        private void TestState1_OnEnter(On.EntityStates.TestState1.orig_OnEnter orig, EntityStates.TestState1 self)
-        {
-            _logger.LogMessage(self.outer.customName);
-            orig(self);
-
         }
     }
 }

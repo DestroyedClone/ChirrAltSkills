@@ -128,7 +128,7 @@ namespace ChirrAltSkills.Chirr
 
         private static void CharacterBody_onBodyStartGlobal(CharacterBody body)
         {
-                if (!NetworkServer.active) return;
+            if (!NetworkServer.active) return;
             if (!body || !body.master) return;
             if (body.bodyIndex == commandoBodyIndex && !commandoSoulmates.Contains(body))
             {

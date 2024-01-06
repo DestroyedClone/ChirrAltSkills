@@ -28,6 +28,7 @@ namespace ChirrAltSkills.Chirr.States.Special
                 base.characterBody.SetAimTimer(duration + 1f);
             }
         }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();

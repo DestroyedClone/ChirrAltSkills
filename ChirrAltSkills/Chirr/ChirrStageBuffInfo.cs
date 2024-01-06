@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr
 {
@@ -224,6 +223,7 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.minRegen,
             hover = StageBuffInfo.minHover,
         };
+
         public static StageBuffInfo dampcaveInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -237,6 +237,7 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.minRegen,
             hover = StageBuffInfo.medHover,
         };
+
         public static StageBuffInfo shipgraveyardInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -249,6 +250,7 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.maxRegen,
             hover = StageBuffInfo.maxHover,
         };
+
         public static StageBuffInfo rootjungleInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -261,6 +263,7 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.maxRegen,
             hover = StageBuffInfo.maxHover,
         };
+
         public static StageBuffInfo skymeadowInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -274,6 +277,7 @@ namespace ChirrAltSkills.Chirr
             regen = StageBuffInfo.maxRegen,
             hover = StageBuffInfo.maxHover,
         };
+
         public static StageBuffInfo bossInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -302,6 +306,7 @@ namespace ChirrAltSkills.Chirr
             },
             //Left Intentionally Blank
         };
+
         public static StageBuffInfo voidstageInfo = new StageBuffInfo()
         {
             stageIds = new string[]
@@ -319,6 +324,7 @@ namespace ChirrAltSkills.Chirr
         {
             blackbeachInfo, golemplainsInfo, snowyforestInfo, goolakeInfo, foggyswampInfo, ancientloftInfo, frozenwallInfo, wispgraveyardInfo, sulfurpoolsInfo, dampcaveInfo, shipgraveyardInfo, rootjungleInfo, skymeadowInfo, bazaarInfo, voidstageInfo, bossInfo
         };
+
         public static Dictionary<string, StageBuffInfo> stageBuffInfoDict = new Dictionary<string, StageBuffInfo>();
 
         public static void Init()

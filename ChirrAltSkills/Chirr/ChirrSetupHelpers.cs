@@ -48,7 +48,7 @@ internal static class ChirrSetupHelpers
         child.stockToConsume = parent.stockToConsume;
     }
 
-    public static T CreateSkillDef<T> (string token, bool setDefaultStateToIdle = true) where T : AssignableSkillDef
+    public static T CreateSkillDef<T>(string token, bool setDefaultStateToIdle = true) where T : AssignableSkillDef
     {
         Debug.Log(token);
         T skillDef = ScriptableObject.CreateInstance<T>();

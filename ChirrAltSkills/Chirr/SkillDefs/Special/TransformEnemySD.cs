@@ -1,7 +1,6 @@
 ﻿using ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef;
 using JetBrains.Annotations;
 using RoR2;
-using static UnityEngine.UI.Image;
 
 namespace ChirrAltSkills.Chirr.SkillDefs.Special
 {

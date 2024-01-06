@@ -1,5 +1,4 @@
-﻿using EntityStates;
-using EntityStates.Mage;
+﻿using EntityStates.Mage;
 using UnityEngine;
 
 namespace ChirrAltSkills.Chirr.States

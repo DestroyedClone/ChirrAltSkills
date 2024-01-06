@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using RoR2;
+﻿using ChirrAltSkills.Chirr.States.Special;
 using R2API;
+using RoR2;
 using UnityEngine;
-using R2API.Utils;
-using ChirrAltSkills.Chirr.States.Special;
 
 namespace ChirrAltSkills
 {
@@ -28,7 +24,6 @@ namespace ChirrAltSkills
             {
                 EatEnemy(dr);
             }
-
         }
 
         private static void EatEnemy(DamageReport damageReport)

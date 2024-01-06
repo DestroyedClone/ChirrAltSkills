@@ -1,5 +1,4 @@
-﻿using ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef;
-using RoR2;
+﻿using RoR2;
 using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.SkillDefs
@@ -23,11 +22,10 @@ namespace ChirrAltSkills.Chirr.SkillDefs
         public override void OnUnassigned(GenericSkill skillSlot)
         {
             if (NetworkServer.active)
-            {
                 Destroy(((InstanceData)skillSlot.skillInstanceData).diggerComponent);
-            }
             base.OnUnassigned(skillSlot);
         }
+
         protected class InstanceData : BaseSkillInstanceData
         {
             public DiggerCloneComponent diggerComponent;

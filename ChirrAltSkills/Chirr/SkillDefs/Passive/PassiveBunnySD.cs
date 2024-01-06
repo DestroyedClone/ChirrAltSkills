@@ -1,6 +1,5 @@
 ﻿using RoR2;
 using RoR2.Skills;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.SkillDefs.Passive
