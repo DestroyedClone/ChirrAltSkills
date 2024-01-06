@@ -1,56 +1,73 @@
-﻿using EntityStates;
+﻿using ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef;
+using EntityStates;
+using R2API;
 using RoR2;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.Special
 {
     internal class EatEnemyES : BaseState
     {
-        public float radius = 5;
-        public float radiusPerStack = 1;
-        public float duration = 60;
+        public const float baseBuffDuration = 10;
+        public const float stackBuffDuration = 1f;
+        public const float damageCoefficient = 10f; //1000%
+
         public virtual bool AllowBoss => false;
+
+        private ChirrTracker chirrTracker;
+
+        private float duration = 0.25f;
 
         public override void OnEnter()
         {
             base.OnEnter();
+            this.chirrTracker = base.GetComponent<ChirrTracker>();
             Util.PlaySound("SS2UChirrSpecial", gameObject);
 
-            if (!NetworkServer.active) return;
-            var buffCount = characterBody.GetBuffCount(Buffs.snackiesBuff);
-            var calculatedRadius = radius + radiusPerStack * buffCount;
-            var cachedPosition = characterBody.corePosition;
-            foreach (var enemy in CharacterMaster.readOnlyInstancesList)
+            if (base.characterBody)
             {
-                if (enemy.teamIndex == teamComponent.teamIndex)
-                    continue;
-                var enemyCB = enemy.GetBody();
-                if (!enemyCB)
-                    continue;
-                if (enemyCB.isBoss && !AllowBoss)
-                    continue;
-                if (Vector3.Distance(enemyCB.corePosition, cachedPosition) > calculatedRadius)
-                    continue;
-                var enemyHC = enemyCB.healthComponent;
-                if (!enemyHC || !enemyHC.alive || enemyHC.health <= 0 || enemyHC.combinedHealthFraction > 0.5f)
-                    continue;
-
-                var remainingHealthFraction = enemyHC.combinedHealthFraction;
-                int buffsToGive = Mathf.CeilToInt(remainingHealthFraction * 10);
-                for (int i = 0; i < buffsToGive; i++)
-                    characterBody.AddTimedBuff(Buffs.snackiesBuff, duration);
-
-                EffectData effectData = new EffectData();
-                effectData.origin = transform.position;
-                effectData.SetNetworkedObjectReference(gameObject);
-                EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/FruitHealEffect"), effectData, true);
-                healthComponent.HealFraction(remainingHealthFraction, default);
-
-                enemyHC.Suicide(characterBody.gameObject);
-                break;
+                base.characterBody.SetAimTimer(duration + 1f);
             }
-            outer.SetNextStateToMain();
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            if (base.fixedAge > this.duration)
+            {
+                if (NetworkServer.active)
+                    ChompEnemy(chirrTracker.GetTrackingTarget().healthComponent);
+                if (base.isAuthority)
+                    this.outer.SetNextStateToMain();
+                return;
+            }
+        }
+
+        public void ChompEnemy(HealthComponent enemyHC)
+        {
+            DamageInfo damageInfo = new DamageInfo()
+            {
+                attacker = gameObject,
+                inflictor = gameObject,
+                crit = characterBody.RollCrit(),
+                damage = characterBody.damage * damageCoefficient,
+                damageType = DamageType.Generic,
+                damageColorIndex = DamageColorIndex.WeakPoint,
+                position = enemyHC.body.corePosition,
+                procCoefficient = 0.1f
+            };
+            damageInfo.AddModdedDamageType(DamageTypes.chirrChompDT);
+            enemyHC.TakeDamage(damageInfo);
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
         }
     }
 }

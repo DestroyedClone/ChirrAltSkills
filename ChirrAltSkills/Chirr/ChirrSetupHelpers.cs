@@ -1,4 +1,6 @@
-﻿using RoR2;
+﻿using ChirrAltSkills;
+using ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef;
+using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 
@@ -16,6 +18,9 @@ internal static class ChirrSetupHelpers
 
     public static void CopySkillDefFields(SkillDef parent, SkillDef child, bool copyIdentifiers)
     {
+        if (!parent && child) Debug.LogError($"Attempted to call CopySkillDefFields with no parent! Child: {child.skillName}");
+        if (!child && parent) Debug.LogError($"Attempted to call CopySkillDefFields with no child! Parent: {parent.skillName}");
+        if (!child && !parent) Debug.LogError($"Attempted to call CopySkillDefFields with no child or parent!!!");
         child.activationState = parent.activationState;
         child.activationStateMachineName = parent.activationStateMachineName;
         child.baseMaxStock = parent.baseMaxStock;
@@ -41,6 +46,24 @@ internal static class ChirrSetupHelpers
             child.skillNameToken = parent.skillNameToken;
         }
         child.stockToConsume = parent.stockToConsume;
+    }
+
+    public static T CreateSkillDef<T> (string token, bool setDefaultStateToIdle = true) where T : AssignableSkillDef
+    {
+        Debug.Log(token);
+        T skillDef = ScriptableObject.CreateInstance<T>();
+        skillDef.skillName = token;
+        (skillDef as ScriptableObject).name = token;
+        skillDef.skillNameToken = token + "_NAME";
+        skillDef.skillDescriptionToken = token + "_DESC";
+        if (setDefaultStateToIdle)
+            skillDef.activationState = new EntityStates.SerializableEntityStateType(typeof(EntityStates.Idle));
+        return skillDef;
+    }
+
+    public static ChirrTargetableSkillDef CreateTargetableSkillDef(string token)
+    {
+        return CreateSkillDef(token) as ChirrTargetableSkillDef;
     }
 
     public static SkillDef CreateSkillDef(string token)

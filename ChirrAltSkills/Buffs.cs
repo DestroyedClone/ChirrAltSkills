@@ -7,11 +7,12 @@ namespace ChirrAltSkills
 {
     internal class Buffs
     {
+        public static BuffDef indulgenceBuff;
         public static BuffDef snackiesBuff;
         public static BuffDef soulmateBuff;
         public static BuffDef goldRushBuff;
         public static BuffDef hoverDurationIndicatorBuff;
-        public static BuffDef bunnyBuff;
+        public static BuffDef bunnyJumpBuff;
 
         public static void Init()
         {
@@ -23,17 +24,19 @@ namespace ChirrAltSkills
         private static void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
         {
             var snackyBuffCount = sender.GetBuffCount(snackiesBuff);
-            if (snackyBuffCount > 0)
+            var gluttonyBuffCount = sender.GetBuffCount(indulgenceBuff);
+            var snackerBuffCountTotal = snackyBuffCount + gluttonyBuffCount;
+            if (snackerBuffCountTotal > 0)
             {
-                args.armorAdd += 0.005f * snackyBuffCount;
-                args.attackSpeedMultAdd -= 0.005f * snackyBuffCount;
-                args.baseHealthAdd += 15 * snackyBuffCount;
-                args.jumpPowerMultAdd -= 0.005f * snackyBuffCount;
-                args.moveSpeedReductionMultAdd += 0.05f * snackyBuffCount;
+                args.armorAdd += 0.005f * snackerBuffCountTotal;
+                args.attackSpeedMultAdd -= 0.003f * snackerBuffCountTotal;
+                args.baseHealthAdd += 15 * snackerBuffCountTotal;
+                args.jumpPowerMultAdd -= 0.001f * snackerBuffCountTotal;
+                args.moveSpeedReductionMultAdd += 0.005f * snackerBuffCountTotal;
                 //args.utilityCooldownMultAdd += 0.1f * buffCount;
                 //Relicofmass
                 //sender.acceleration = sender.baseAcceleration / (snackyBuffCount * StaticValues.massFactor / 2);
-                sender.characterMotor.mass = ChirrSetup.cachedMass + (ChirrSetup.cachedMass / 4 * snackyBuffCount);
+                sender.characterMotor.mass = ChirrSetup.cachedMass + (ChirrSetup.cachedMass / 10 * snackerBuffCountTotal);
             }
             var soulmateBuffCount = sender.GetBuffCount(soulmateBuff);
             if (soulmateBuffCount > 0)
@@ -43,7 +46,7 @@ namespace ChirrAltSkills
                 //Get level health
                 args.healthMultAdd += 0.1f * soulmateBuffCount;
             }
-            var lapinCount = sender.GetBuffCount(bunnyBuff);
+            var lapinCount = sender.GetBuffCount(bunnyJumpBuff);
             if (lapinCount > 0)
             {
                 args.jumpPowerMultAdd += 0.1f * lapinCount;
@@ -62,8 +65,18 @@ namespace ChirrAltSkills
             snackiesBuff.isHidden = false;
             ContentAddition.AddBuffDef(snackiesBuff);
 
+            indulgenceBuff = ScriptableObject.CreateInstance<BuffDef>();
+            indulgenceBuff.name = "DCSS2UChirrIndulgence";
+            indulgenceBuff.buffColor = Color.white;
+            indulgenceBuff.iconSprite = Assets.ChirrAssets.buffSnackiesIcon;
+            indulgenceBuff.canStack = true;
+            indulgenceBuff.isCooldown = false;
+            indulgenceBuff.isDebuff = false;
+            indulgenceBuff.isHidden = false;
+            ContentAddition.AddBuffDef(indulgenceBuff);
+
             soulmateBuff = ScriptableObject.CreateInstance<BuffDef>();
-            soulmateBuff.name = "DCSS2UChirrSoulmate";
+            soulmateBuff.name = "DCSS2UChirrComfortingPresence";
             soulmateBuff.buffColor = Color.white;
             soulmateBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
             soulmateBuff.canStack = true;
@@ -99,15 +112,15 @@ namespace ChirrAltSkills
             hoverDurationIndicatorBuff.isHidden = false;
             ContentAddition.AddBuffDef(hoverDurationIndicatorBuff);
 
-            bunnyBuff = ScriptableObject.CreateInstance<BuffDef>();
-            bunnyBuff.name = "DCSS2UChirrBunny";
-            bunnyBuff.buffColor = Color.white;
+            bunnyJumpBuff = ScriptableObject.CreateInstance<BuffDef>();
+            bunnyJumpBuff.name = "DCSS2UChirrBunnyJumpBoost";
+            bunnyJumpBuff.buffColor = Color.white;
             //lapinBuff.iconSprite = null;
-            bunnyBuff.canStack = true;
-            bunnyBuff.isCooldown = false;
-            bunnyBuff.isDebuff = false;
-            bunnyBuff.isHidden = false;
-            ContentAddition.AddBuffDef(bunnyBuff);
+            bunnyJumpBuff.canStack = true;
+            bunnyJumpBuff.isCooldown = false;
+            bunnyJumpBuff.isDebuff = false;
+            bunnyJumpBuff.isHidden = false;
+            ContentAddition.AddBuffDef(bunnyJumpBuff);
         }
 
         private static void ChirrGoldRushRecalcStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)

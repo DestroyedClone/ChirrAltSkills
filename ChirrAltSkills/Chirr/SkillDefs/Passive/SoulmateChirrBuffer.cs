@@ -34,5 +34,13 @@ namespace ChirrAltSkills.Chirr
                 }
             }
         }
+
+        public void OnDestroy()
+        {
+            while (body.HasBuff(Buffs.soulmateBuff))
+            {
+                body.RemoveBuff(Buffs.soulmateBuff);
+            }
+        }
     }
 }

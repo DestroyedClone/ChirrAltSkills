@@ -27,6 +27,13 @@
 		"DESCLONE_SS2UCHIRR_EAT_DESC": "<style=cIsDamage>Snackies</style>. Activate to <style=cIsDamage>consume</style> an enemy within <style=cIsDamage>5m</style> below <style=cIsHealth>10% health</style>, granting <style=cIsDamage>'Snackies'</style> buffs proportional to the amount of health remaining",
 		"DESCLONE_SS2UCHIRR_SNACKIES_KEYWORD": "<style=cKeywordName>Snackies</style><style=cSub>Increases armor, max health, and mass.\nDecreases attack speed, movement speed, acceleration, and jump power.\nSnackies increase the range of Snack.</style>",
 		"DESCLONE_SS2UCHIRR_VORE_SCEPTER_NAME": "Devour",
-		"DESCLONE_SS2UCHIRR_VORE_SCEPTER_DESC": "<style=cIsDamage>Snackies</style>. Activate to <style=cIsDamage>consume</style> an enemy within <style=cIsDamage>5m</style> below <style=cIsHealth>10% health</style>, granting <style=cIsDamage>'snacky'</style> buffs proportional to the amount of health remaining"
+		"DESCLONE_SS2UCHIRR_VORE_SCEPTER_DESC": "<style=cIsDamage>Snackies</style>. Activate to <style=cIsDamage>consume</style> an enemy within <style=cIsDamage>5m</style> below <style=cIsHealth>10% health</style>, granting <style=cIsDamage>'snacky'</style> buffs proportional to the amount of health remaining",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_0": "ChirrAltSkills: You <style=cIsUtility>adapt</style> to <style=cIsUtility>{0}'s environment.</style>.",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ARMOR": "Armor",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_MOVESPEED": "Movespeed",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ATTACKSPEED": "Attackspeed",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_REGEN": "Regen",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_HOVER": "HoverAccel",
+		"DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1": "<color=grey>{0}<size=80%>{1}</size></color>|<style=cIsUtility>{2}<size=80%>{3}</size></style>|<style=cIsDamage>{4}<size=80%>{5}</size></style>|<style=cIsHealing>{6}<size=80%>{7}</size></style>|<style=cIsUtility>{8}<size=80%>{9}</size></style>|"
 	}
 }

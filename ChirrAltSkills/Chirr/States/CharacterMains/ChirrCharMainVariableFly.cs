@@ -1,27 +1,13 @@
-﻿using ChirrAltSkills.Chirr.States.Passive.Hover;
-using EntityStates;
+﻿using EntityStates;
+using EntityStates.SS2UStates.Chirr;
 using RoR2;
-using Starstorm2Unofficial.Survivors.Chirr;
-using Starstorm2Unofficial.Survivors.Chirr.Components;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr.States.CharacterMains
 {
-    //not inherenting from EntityStates.SS2UStates.Chirr
-    //cause worried about base.OnEnter calls redundancy
-    internal class ChirrCharMainVariableFly : GenericCharacterMain
+    internal class ChirrCharMainVariableFly : ChirrMain
     {
-        public static string wingSoundStart = "SS2UChirrSprintStart";
-        public static string wingSoundLoop = "SS2UChirrSprintLoop";
-        public static string wingSoundStop = "SS2UChirrSprintStop";
-
-        private ChirrFriendController friendController;
-        private uint wingSoundID;
-        private bool playingWingSound = false;
-        private bool inJetpackState = false;
-        private EntityStateMachine jetpackStateMachine;
-
         private float hoverVelocityMultiplier = 1;
         private float hoverAccelerationMultiplier = 1;
 
@@ -34,9 +20,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         private bool hoverOnCooldown = false;
 
         private static BuffDef IndicatorBuff => Buffs.hoverDurationIndicatorBuff;
-        private static BuffDef LapinBuff => Buffs.bunnyBuff;
 
-        public bool isLapin = false;
+        public bool isBunny = false;
 
         public void ChangeHoverMultiplier(float hoverVelocityMultiplier, float hoverAccelerationMultiplier)
         {
@@ -63,9 +48,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }
                 else if (skill.skillDef == ChirrSetup.passiveBunnySD)
                 {
+                    isBunny = true;
                     ChangeHoverMultiplier(1, -1);
-                    isLapin = true;
-                    characterMotor.onHitGroundAuthority += LapinBoostOnLand_Server;
                 }
                 else if (skill.skillDef == ChirrSetup.passiveDiggerSD)
                 {
@@ -85,45 +69,26 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
             characterBody.ClearTimedBuffs(IndicatorBuff);
         }
 
-        private void LapinBoostOnLand_Server(ref CharacterMotor.HitGroundInfo hitGroundInfo)
-        {
-            characterBody.AddTimedBuffAuthority(LapinBuff.buffIndex, 10f);
-        }
-
         public override void OnEnter()
         {
             base.OnEnter();
-            jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jetpack");
-
-            friendController = GetComponent<ChirrFriendController>();
-            if (NetworkServer.active && friendController)
-            {
-                friendController.TryGetSavedMaster();
-            }
             ChangeMainBasedOnSkillDef();
-
-            //Set ending text.
-            //Very bad way to do this, this is a mess.
-            if (characterBody && isAuthority)
-            {
-                CharacterMaster ownerMaster = characterBody.master;
-                if (ownerMaster && ownerMaster.loadout != null)
-                {
-                    int skinIndex = (int)ownerMaster.loadout.bodyLoadoutManager.GetSkinIndex(ChirrCore.bodyIndex);
-                    SkinDef equippedSkin = HG.ArrayUtils.GetSafe(BodyCatalog.GetBodySkins(ChirrCore.bodyIndex), skinIndex);
-                    bool isMaid = equippedSkin == ChirrSkins.maidSkin;
-
-                    if (ChirrCore.survivorDef && ChirrCore.survivorDef.outroFlavorToken != "SS2UCHIRR_OUTRO_BROTHER_EASTEREGG")
-                    {
-                        ChirrCore.survivorDef.outroFlavorToken = "SS2UCHIRR_OUTRO_FLAVOR";
-                        if (isAuthority && isMaid) ChirrCore.survivorDef.outroFlavorToken = "SS2UCHIRR_OUTRO_MAID_FLAVOR";
-                    }
-                }
-            }
 
             if (characterMotor && hoverHasDuration)
             {
                 characterMotor.onHitGroundAuthority += ResetHoverCooldown;
+            }
+
+            var speSD = skillLocator.special.skillDef;
+            //var chirrTracker = GetComponent<ChirrTracker>();
+            //if (speSD == Starstorm2Unofficial.Survivors.Chirr.ChirrCore.specialDef)
+            if (speSD == ChirrSetup.specialEatSD)
+            {
+                friendController.maxTrackingDistance = 0;
+            }
+            else if (speSD == ChirrSetup.specialTransformSD)
+            {
+                friendController.maxTrackingDistance = 0;
             }
         }
 
@@ -138,9 +103,81 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }
         }
 
+        public void GenericCharacterMain_ProcessJump()
+        {
+            if (this.hasCharacterMotor)
+            {
+                bool flag = false;
+                bool flag2 = false;
+                if (this.jumpInputReceived && base.characterBody && base.characterMotor.jumpCount < base.characterBody.maxJumpCount)
+                {
+                    int itemCount = base.characterBody.inventory.GetItemCount(RoR2Content.Items.JumpBoost);
+                    float horizontalBonus = 1f;
+                    float verticalBonus = 1f;
+                    if (base.characterMotor.jumpCount >= base.characterBody.baseJumpCount)
+                    {
+                        flag = true;
+                        horizontalBonus = 1.5f;
+                        verticalBonus = 1.5f;
+                    }
+                    else if ((float)itemCount > 0f && base.characterBody.isSprinting)
+                    {
+                        float num = base.characterBody.acceleration * base.characterMotor.airControl;
+                        if (base.characterBody.moveSpeed > 0f && num > 0f)
+                        {
+                            flag2 = true;
+                            float num2 = Mathf.Sqrt(10f * (float)itemCount / num);
+                            float num3 = base.characterBody.moveSpeed / num;
+                            horizontalBonus = (num2 + num3) / num3;
+                        }
+                    }
+                    GenericCharacterMain.ApplyJumpVelocity(base.characterMotor, base.characterBody, horizontalBonus, verticalBonus, false);
+                    if (this.hasModelAnimator)
+                    {
+                        int layerIndex = base.modelAnimator.GetLayerIndex("Body");
+                        if (layerIndex >= 0)
+                        {
+                            if (base.characterMotor.jumpCount == 0 || base.characterBody.baseJumpCount == 1)
+                            {
+                                base.modelAnimator.CrossFadeInFixedTime("Jump", this.smoothingParameters.intoJumpTransitionTime, layerIndex);
+                            }
+                            else
+                            {
+                                base.modelAnimator.CrossFadeInFixedTime("BonusJump", this.smoothingParameters.intoJumpTransitionTime, layerIndex);
+                            }
+                        }
+                    }
+                    if (flag)
+                    {
+                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/FeatherEffect"), new EffectData
+                        {
+                            origin = base.characterBody.footPosition
+                        }, true);
+                    }
+                    else if (base.characterMotor.jumpCount > 0)
+                    {
+                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ImpactEffects/CharacterLandImpact"), new EffectData
+                        {
+                            origin = base.characterBody.footPosition,
+                            scale = base.characterBody.radius
+                        }, true);
+                    }
+                    if (flag2)
+                    {
+                        EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/BoostJumpEffect"), new EffectData
+                        {
+                            origin = base.characterBody.footPosition,
+                            rotation = Util.QuaternionSafeLookRotation(base.characterMotor.velocity)
+                        }, true);
+                    }
+                    base.characterMotor.jumpCount++;
+                }
+            }
+        }
+
         public override void ProcessJump()
         {
-            base.ProcessJump();
+            GenericCharacterMain_ProcessJump(); //base.ProcessJump();
             inJetpackState = jetpackStateMachine.state.GetType() == typeof(VariableHoverOn);
             if (hasCharacterMotor && hasInputBank && isAuthority)
             {
@@ -173,23 +210,8 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
         {
             base.FixedUpdate();
 
+            //gets set then set by this
             inJetpackState = jetpackStateMachine && jetpackStateMachine.state.GetType() == typeof(VariableHoverOn);
-            bool shouldPlayWingSound = inJetpackState;//base.characterBody.isSprinting ||
-            if (shouldPlayWingSound != playingWingSound)
-            {
-                if (!playingWingSound)
-                {
-                    playingWingSound = true;
-                    //Util.PlaySound(wingSoundStart, base.gameObject);
-                    wingSoundID = Util.PlaySound(wingSoundLoop, gameObject);
-                }
-                else
-                {
-                    playingWingSound = false;
-                    AkSoundEngine.StopPlayingID(wingSoundID);
-                    Util.PlaySound(wingSoundStop, gameObject);
-                }
-            }
 
             if (hoverHasDuration && inJetpackState && !hoverOnCooldown)
             {
@@ -204,36 +226,15 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 }*/
                 hoverOnCooldown = hoverStopwatch <= 0;
             }
-
-            //Technically don't need a network check.
-            if (NetworkServer.active)
-            {
-                if (friendController && skillLocator && skillLocator.special && skillLocator.special.skillDef == ChirrCore.specialScepterDef)
-                {
-                    friendController.canBefriendChampion = true;
-                }
-
-                //Dont set it to false, in case Mithrix steals scepter (I think it's already blacklisted from stealing)
-                /*else
-                {
-                    friendController.canBefriendChampion = false;
-                }*/
-            }
         }
 
         public override void OnExit()
         {
-            Util.PlaySound(wingSoundStop, gameObject);
-
             if (NetworkServer.active)
             {
                 while (characterBody.HasBuff(IndicatorBuff))
                 {
                     characterBody.RemoveBuff(IndicatorBuff);
-                }
-                if (isLapin)
-                {
-                    characterMotor.onHitGroundAuthority -= LapinBoostOnLand_Server;
                 }
             }
             if (characterMotor && hoverHasDuration)

@@ -1,21 +1,10 @@
-﻿using EntityStates;
-using RoR2;
+﻿using RoR2;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace ChirrAltSkills.Chirr.States.Passive
+namespace ChirrAltSkills.Chirr.SkillDefs
 {
-    internal class PassiveDiggerES : EntityState
-    {
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            var comp = characterBody.gameObject.AddComponent<DiggerCloneComponent>();
-            comp.characterBody = characterBody;
-        }
-    }
-
     public class DiggerCloneComponent : MonoBehaviour
     {
         private float adrenalineGainBuffer;
@@ -26,7 +15,10 @@ namespace ChirrAltSkills.Chirr.States.Passive
 
         public CharacterBody characterBody;
 
-        public LocalUser localUser;
+        public void Awake()
+        {
+            this.characterBody = GetComponent<CharacterBody>();
+        }
 
         public void Start()
         {
@@ -95,6 +87,12 @@ namespace ChirrAltSkills.Chirr.States.Passive
             }
 
             this.buffCounter = characterBody.GetBuffCount(Buffs.goldRushBuff);
+        }
+
+        //new
+        private void OnDestroy()
+        {
+            characterBody.ClearTimedBuffs(Buffs.goldRushBuff);
         }
     }
 }

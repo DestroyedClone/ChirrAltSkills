@@ -1,6 +1,8 @@
 ﻿using RoR2;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace ChirrAltSkills.Chirr
 {
@@ -56,11 +58,31 @@ namespace ChirrAltSkills.Chirr
                 var multiplier = 1 + stageClearCount * stageMultiplierStagesCleared;
                 var multiplierMS = 1 + Mathf.Min(20, stageClearCount) * stageMultiplierStagesCleared;
 
-                characterBody.baseArmor += armor * multiplier;
-                characterBody.baseAttackSpeed += attackspeed * multiplier;
-                characterBody.baseMoveSpeed += movespeed * multiplierMS;
-                characterBody.baseRegen += regen * multiplier;
+                float armorMult = armor * multiplier;
+                float asMult = attackspeed * multiplier;
+                float msMult = movespeed * multiplierMS;
+                float regenMult = regen * multiplier;
 
+                characterBody.baseArmor += armorMult;
+                characterBody.baseAttackSpeed += asMult;
+                characterBody.baseMoveSpeed += msMult;
+                characterBody.baseRegen += regenMult;
+                if (characterBody.isPlayerControlled && characterBody.hasEffectiveAuthority)
+                {
+                    string g(string token)
+                    {
+                        return Language.GetString(token);
+                    }
+                    string stageName = Language.GetString(SceneCatalog.GetSceneDefForCurrentScene().nameToken);
+                    string formattedAnnouncement = Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_0", stageName);
+                    string formattedStatShow = Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1",
+                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ARMOR"), armorMult,
+                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_MOVESPEED"), string.Format("{0:P}", asMult),
+                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ATTACKSPEED"), string.Format("{0:P}", msMult),
+                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_REGEN"), regenMult,
+                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_HOVER"), string.Format("{0:P}", hover));
+                    Chat.AddMessage(formattedAnnouncement + Environment.NewLine + formattedStatShow);
+                };
                 characterBody.MarkAllStatsDirty();
             }
         }

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Chirr\States\Passive\PassiveVoidES.cs" />
+    <Compile Remove="Chirr\States\Special\EatEnemyESAoE.cs" />
   </ItemGroup>
 	
 	<ItemGroup>
@@ -27,7 +27,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="Chirr\Skills\" />
 	  <Folder Include="Chirr\States\Secondary\" />
 	  <Folder Include="Chirr\States\Utility\" />
 	  <Folder Include="language\de\" />
@@ -49,6 +48,9 @@
 	  <Reference Include="Starstorm2Unofficial">
 	    <HintPath>lib\Starstorm2Unofficial.dll</HintPath>
 	  </Reference>
+		<Reference Include="Starstorm2Unofficial-nstrip">
+			<HintPath>lib\Starstorm2Unofficial-nstrip.dll</HintPath>
+		</Reference>
 	</ItemGroup>
 
 </Project>

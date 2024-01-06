@@ -1,9 +1,12 @@
-﻿using ChirrAltSkills.Chirr.States;
+﻿using ChirrAltSkills.Chirr.SkillDefs;
+using ChirrAltSkills.Chirr.SkillDefs.Passive;
+using ChirrAltSkills.Chirr.SkillDefs.Special;
+using ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef;
+using ChirrAltSkills.Chirr.States;
 using ChirrAltSkills.Chirr.States.CharacterMains;
-using ChirrAltSkills.Chirr.States.Passive;
-using ChirrAltSkills.Chirr.States.Passive.Hover;
 using ChirrAltSkills.Chirr.States.Primary;
 using ChirrAltSkills.Chirr.States.Special;
+using EntityStates;
 using R2API;
 using RoR2;
 using RoR2.Skills;
@@ -26,12 +29,12 @@ namespace ChirrAltSkills.Chirr
         public static GenericSkill passiveSkill;
         public static SkillFamily passiveSkillFamily;
 
-        public static SkillDef passiveStageBuffSD;
-        public static SkillDef passiveSnackiesSD;
-        public static SkillDef passiveBunnySD;
-        public static SkillDef passiveSoulmateSD;
-        public static SkillDef passiveDiggerSD;
-        public static SkillDef passiveDefaultSD;
+        public static PassiveStageBuffSD passiveStageBuffSD;
+        public static PassiveSnackiesPerStageSD passiveSnackiesSD;
+        public static PassiveBunnySD passiveBunnySD;
+        public static PassiveSoulmateSD passiveSoulmateSD;
+        public static PassiveDiggerSD passiveDiggerSD;
+        public static PassiveTakeFlightSD passiveDefaultSD;
 
         public static SteppedSkillDef primaryDoubleTapSD;
 
@@ -49,38 +52,59 @@ namespace ChirrAltSkills.Chirr
             cachedMass = bodyPrefab.GetComponent<CharacterMotor>().mass;
             skillLocator = bodyPrefab.GetComponent<SkillLocator>();
 
+            var chirrTracker = bodyPrefab.AddComponent<ChirrTracker>();
+            chirrTracker.enabled = false;
+
             RevertBaseChanges();
             SetupPassive();
             SetupPrimary();
             SetupSpecial();
 
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
-            GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
-            Run.onServerGameOver += Run_onServerGameOver;
-            On.RoR2.BodyCatalog.Init += CacheBodyIndex;
+            GlobalEventManager.onCharacterDeathGlobal += Server_onCharacterDeath;
+            Run.onServerGameOver += Run_ResetSoulmates;
+            Stage.onServerStageComplete += Stage_ResetSoulmates;
+            On.RoR2.BodyCatalog.Init += (orig) =>
+            {
+                orig();
+                commandoBodyIndex = BodyCatalog.FindBodyIndex("CommandoBody");
+            };
 
             ChirrStageBuffInfo.Init();
-        }
-
-        private static void CacheBodyIndex(On.RoR2.BodyCatalog.orig_Init orig)
-        {
-            orig();
-            commandoBodyIndex = BodyCatalog.FindBodyIndex("CommandoBody");
         }
 
         private static void RevertBaseChanges()
         {
             bodyPrefab.GetComponent<CharacterBody>().baseJumpPower = 15f;
-            bodyPrefab.GetComponent<EntityStateMachine>().mainStateType = new EntityStates.SerializableEntityStateType(typeof(ChirrCharMainVariableFly));
+            var esmList = bodyPrefab.GetComponents<EntityStateMachine>();
+            foreach (var esm in esmList)
+            {
+                if (esm.customName == "Body")
+                {
+                    esm.mainStateType = new EntityStates.SerializableEntityStateType(typeof(ChirrCharMainVariableFly));
+                    break;
+                }
+                //Debug.Log($"{esm.customName} : {esm.initialStateType} : {esm.mainStateType}");
+            }
         }
 
-        private static void Run_onServerGameOver(Run arg1, GameEndingDef arg2)
+        private static void ResetSoulmates()
         {
             chirrSoulmates.Clear();
             commandoSoulmates.Clear();
         }
 
-        private static void GlobalEventManager_onCharacterDeathGlobal(DamageReport obj)
+        private static void Stage_ResetSoulmates(Stage obj)
+        {
+            ResetSoulmates();
+        }
+
+        private static void Run_ResetSoulmates(Run arg1, GameEndingDef arg2)
+        {
+            ResetSoulmates();
+        }
+
+        private static void Server_onCharacterDeath(DamageReport obj)
         {
             if (!NetworkServer.active) return;
             if (obj == null) return;
@@ -104,18 +128,12 @@ namespace ChirrAltSkills.Chirr
 
         private static void CharacterBody_onBodyStartGlobal(CharacterBody body)
         {
-            if (!NetworkServer.active) return;
+                if (!NetworkServer.active) return;
             if (!body || !body.master) return;
             if (body.bodyIndex == commandoBodyIndex && !commandoSoulmates.Contains(body))
             {
                 commandoSoulmates.Add(body);
                 return;
-            }
-            else if (body.bodyIndex == ChirrCore.bodyIndex)
-            {
-                var locPassiveESM = EntityStateMachine.FindByCustomName(body.gameObject, "Passive");
-                var nextState = EntityStateCatalog.InstantiateState(locPassiveESM.mainStateType);
-                locPassiveESM.SetInterruptState(nextState, EntityStates.InterruptPriority.Death);
             }
         }
 
@@ -147,66 +165,55 @@ namespace ChirrAltSkills.Chirr
             passiveESM = bodyPrefab.AddComponent<EntityStateMachine>();
             //passiveESM.commonComponents = nsm.stateMachines[0].commonComponents;
             passiveESM.customName = "Passive";
-            passiveESM.mainStateType = new EntityStates.SerializableEntityStateType(typeof(ESMCallSkillDefOnStartES));
-            ContentAddition.AddEntityState<ESMCallSkillDefOnStartES>(out _);
+            passiveESM.initialStateType = new EntityStates.SerializableEntityStateType(typeof(Idle));
+            passiveESM.mainStateType = new EntityStates.SerializableEntityStateType(typeof(Idle));
 
             HG.ArrayUtils.ArrayAppend(ref nsm.stateMachines, in passiveESM);
 
             #endregion Creating Passive
 
-            #region None
+            #region Default
 
-            passiveDefaultSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_TAKEFLIGHT");
+            passiveDefaultSD = ChirrSetupHelpers.CreateSkillDef<PassiveTakeFlightSD>("DESCLONE_SS2UCHIRR_PASSIVE_TAKEFLIGHT");
             passiveDefaultSD.skillNameToken = skillLocator.passiveSkill.skillNameToken;
             passiveDefaultSD.skillName = passiveDefaultSD.skillNameToken;
             passiveDefaultSD.skillDescriptionToken = skillLocator.passiveSkill.skillDescriptionToken;
             passiveDefaultSD.icon = skillLocator.passiveSkill.icon;
-            passiveDefaultSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveTakeFlightES));
             skillLocator.passiveSkill.enabled = false;
             AddPassive(passiveDefaultSD);
-            ContentAddition.AddEntityState<PassiveTakeFlightES>(out _);
 
-            #endregion None
+            #endregion Default
 
-            passiveStageBuffSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
+            passiveStageBuffSD = ChirrSetupHelpers.CreateSkillDef<PassiveStageBuffSD>("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
             passiveStageBuffSD.icon = Assets.ChirrAssets.passiveEcosystemIcon;
-            passiveStageBuffSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveStageBuffES));
             AddPassive(passiveStageBuffSD);
-            ContentAddition.AddEntityState<PassiveStageBuffES>(out _);
 
-            passiveSnackiesSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_SNACKIESPERSTAGE");
+            passiveSnackiesSD = ChirrSetupHelpers.CreateSkillDef<PassiveSnackiesPerStageSD>("DESCLONE_SS2UCHIRR_PASSIVE_SNACKIESPERSTAGE");
             passiveSnackiesSD.icon = Assets.ChirrAssets.passiveSnackiesIcon;
-            passiveSnackiesSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveSnackiesPerStageES));
             passiveSnackiesSD.keywordTokens = new string[]
             {
                 "DESCLONE_SS2UCHIRR_SNACKIES_KEYWORD"
             };
             AddPassive(passiveSnackiesSD);
-            ContentAddition.AddEntityState<PassiveSnackiesPerStageES>(out _);
 
-            passiveBunnySD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_BUNNY");
-            passiveBunnySD.icon = Assets.ChirrAssets.passiveLapinIcon;
-            passiveBunnySD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveBunnyES));
+            passiveBunnySD = ChirrSetupHelpers.CreateSkillDef<PassiveBunnySD>("DESCLONE_SS2UCHIRR_PASSIVE_BUNNY");
+            passiveBunnySD.icon = Assets.ChirrAssets.passiveBunnyIcon;
             AddPassive(passiveBunnySD);
-            ContentAddition.AddEntityState<PassiveBunnyES>(out _);
 
-            passiveSoulmateSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE");
+            passiveSoulmateSD = ChirrSetupHelpers.CreateSkillDef<PassiveSoulmateSD>("DESCLONE_SS2UCHIRR_PASSIVE_SOULMATE");
             passiveSoulmateSD.icon = Assets.ChirrAssets.passiveSoulmateIcon;
-            passiveSoulmateSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveSoulmateES));
             AddPassive(passiveSoulmateSD);
-            ContentAddition.AddEntityState<PassiveSoulmateES>(out _);
 
-            passiveDiggerSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_PASSIVE_DIGGER");
+            passiveDiggerSD = ChirrSetupHelpers.CreateSkillDef<PassiveDiggerSD>("DESCLONE_SS2UCHIRR_PASSIVE_DIGGER");
             passiveDiggerSD.icon = Assets.ChirrAssets.passiveMinerIcon;
-            passiveDiggerSD.activationState = new EntityStates.SerializableEntityStateType(typeof(PassiveDiggerES));
             AddPassive(passiveDiggerSD);
-            ContentAddition.AddEntityState<PassiveDiggerES>(out _);
         }
 
         private static void SetupPrimary()
         {
             var primarySF = skillLocator.primary.skillFamily;
 
+            ContentAddition.AddEntityState<FireDoubleTapES>(out _);
             primaryDoubleTapSD = ScriptableObject.CreateInstance<SteppedSkillDef>();
             primaryDoubleTapSD.skillName = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP";
             (primaryDoubleTapSD as ScriptableObject).name = "DESCLONE_SS2UCHIRR_PRIMARY_DOUBLETAP";
@@ -220,21 +227,21 @@ namespace ChirrAltSkills.Chirr
             primaryDoubleTapSD.stepGraceDuration = 0.1f;
             ContentAddition.AddSkillDef(primaryDoubleTapSD);
             ChirrSetupHelpers.AddToSkillFamily(primaryDoubleTapSD, primarySF);
-            ContentAddition.AddEntityState<FireDoubleTapES>(out _);
         }
 
         private static void SetupSpecial()
         {
-            specialTransformSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_TRANSFORM");
+            ContentAddition.AddEntityState<TransformEnemyES>(out _);
+            specialTransformSD = ChirrSetupHelpers.CreateSkillDef<TransformEnemySD>("DESCLONE_SS2UCHIRR_TRANSFORM");
             var tame = skillLocator.special.skillFamily.variants[0].skillDef;
             ChirrSetupHelpers.CopySkillDefFields(tame, specialTransformSD, false);
             specialTransformSD.activationState = new EntityStates.SerializableEntityStateType(typeof(TransformEnemyES));
             specialTransformSD.icon = Assets.ChirrAssets.specialTFIcon;
             ContentAddition.AddSkillDef(specialTransformSD);
             ChirrSetupHelpers.AddToSkillFamily(specialTransformSD, skillLocator.special.skillFamily);
-            ContentAddition.AddEntityState<TransformEnemyES>(out _);
 
-            specialEatSD = ChirrSetupHelpers.CreateSkillDef("DESCLONE_SS2UCHIRR_EAT");
+            ContentAddition.AddEntityState<EatEnemyES>(out _);
+            specialEatSD = ChirrSetupHelpers.CreateSkillDef<EatEnemySD>("DESCLONE_SS2UCHIRR_EAT");
             ChirrSetupHelpers.CopySkillDefFields(tame, specialEatSD, false);
             specialEatSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EatEnemyES));
             specialEatSD.icon = Assets.ChirrAssets.specialEatIcon;
@@ -244,7 +251,6 @@ namespace ChirrAltSkills.Chirr
             };
             ContentAddition.AddSkillDef(specialEatSD);
             ChirrSetupHelpers.AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
-            ContentAddition.AddEntityState<EatEnemyES>(out _);
         }
     }
 }

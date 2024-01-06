@@ -37,7 +37,7 @@ namespace ChirrAltSkills
         {
             public static Sprite passiveEcosystemIcon;
             public static Sprite passiveSnackiesIcon;
-            public static Sprite passiveLapinIcon;
+            public static Sprite passiveBunnyIcon;
             public static Sprite passiveSoulmateIcon;
             public static Sprite passiveMinerIcon;
 
@@ -62,7 +62,7 @@ namespace ChirrAltSkills
             {
                 passiveEcosystemIcon = LoadSprite("StageBuffIcon");
                 passiveSnackiesIcon = LoadSprite("GluttonyIcon");
-                passiveLapinIcon = LoadSprite("LapinIcon");
+                passiveBunnyIcon = LoadSprite("LapinIcon");
                 passiveSoulmateIcon = LoadSprite("SoulmatePassiveIcon");
                 passiveMinerIcon = LoadSprite("MinerIcon");
                 //NeedleIcon

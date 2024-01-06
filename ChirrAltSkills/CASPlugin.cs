@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using ChirrAltSkills.Chirr;
+using System.Diagnostics;
 using System.Security;
 using System.Security.Permissions;
 
@@ -18,7 +19,7 @@ namespace ChirrAltSkills
     {
         internal static BepInEx.Logging.ManualLogSource _logger;
         internal static BepInEx.Configuration.ConfigFile _config;
-        private const string LastDllVersion = "0.16.4";
+        internal const string LastDllVersion = "0.16.4";
         public static PluginInfo PInfo { get; set; }
 
         public static bool modloaded_Miner = false;
@@ -34,7 +35,16 @@ namespace ChirrAltSkills
 
             Assets.Init();
             Buffs.Init();
+            DamageTypes.Init();
             ChirrSetup.Init();
+            //On.EntityStates.TestState1.OnEnter += TestState1_OnEnter;
+        }
+
+        private void TestState1_OnEnter(On.EntityStates.TestState1.orig_OnEnter orig, EntityStates.TestState1 self)
+        {
+            _logger.LogMessage(self.outer.customName);
+            orig(self);
+
         }
     }
 }
