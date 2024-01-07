@@ -28,6 +28,8 @@ namespace ChirrAltSkills.Chirr.States.Special
             {
                 base.characterBody.SetAimTimer(duration + 1f);
             }
+            if (NetworkServer.active)
+                ChompEnemy(chirrTracker.GetTrackingTarget().healthComponent);
         }
 
         public override void FixedUpdate()
@@ -35,8 +37,6 @@ namespace ChirrAltSkills.Chirr.States.Special
             base.FixedUpdate();
             if (base.fixedAge > this.duration)
             {
-                if (NetworkServer.active)
-                    ChompEnemy(chirrTracker.GetTrackingTarget().healthComponent);
                 if (base.isAuthority)
                     this.outer.SetNextStateToMain();
                 return;
