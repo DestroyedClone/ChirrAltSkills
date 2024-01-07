@@ -35,11 +35,11 @@ namespace ChirrAltSkills
 
         public static class ChirrAssets
         {
-            public static Sprite passiveEcosystemIcon;
-            public static Sprite passiveSnackiesIcon;
+            public static Sprite passiveStageBuffIcon;
+            public static Sprite passiveSnackiesPerStageIcon;
             public static Sprite passiveBunnyIcon;
             public static Sprite passiveSoulmateIcon;
-            public static Sprite passiveMinerIcon;
+            public static Sprite passiveDiggerIcon;
 
             public static Sprite primaryLeafBladeIcon;
             public static Sprite secondaryHeadbuttWeakenIcon;
@@ -49,9 +49,12 @@ namespace ChirrAltSkills
             public static Sprite specialEatIcon;
             public static Sprite specialEatIconScepter;
 
+            public static Sprite buffIndulgenceIcon;
             public static Sprite buffSnackiesIcon;
             public static Sprite buffSoulmateIcon;
-            public static Sprite buffGoldrushIcon;
+            public static Sprite buffAdrenalineIcon;
+            public static Sprite buffHoverDurationIcon;
+            public static Sprite buffBunnyJumpIcon;
 
             public static Sprite LoadSprite(string path)
             {
@@ -60,20 +63,24 @@ namespace ChirrAltSkills
 
             public static void Init()
             {
-                passiveEcosystemIcon = LoadSprite("StageBuffIcon");
-                passiveSnackiesIcon = LoadSprite("GluttonyIcon");
-                passiveBunnyIcon = LoadSprite("LapinIcon");
-                passiveSoulmateIcon = LoadSprite("SoulmatePassiveIcon");
-                passiveMinerIcon = LoadSprite("MinerIcon");
+                passiveStageBuffIcon = LoadSprite("PassiveStageBuffIcon");
+                passiveSnackiesPerStageIcon = LoadSprite("PassiveSnackiesPerStageIcon");
+                passiveBunnyIcon = LoadSprite("PassiveBunnyIcon");
+                passiveSoulmateIcon = LoadSprite("PassiveSoulmateIcon");
+                passiveDiggerIcon = LoadSprite("PassiveDiggerIcon");
                 //NeedleIcon
-                specialTFIcon = LoadSprite("ChirrTFIcon");
-                specialTFIconScepter = LoadSprite("ChirrTFScepterIcon");
-                specialEatIcon = LoadSprite("ChirrEatIcon");
-                specialEatIconScepter = LoadSprite("ChirrEatScepterIcon");
 
-                buffSnackiesIcon = passiveSnackiesIcon;
-                buffSoulmateIcon = LoadSprite("SoulmateBuffIcon");
-                buffGoldrushIcon = passiveMinerIcon;
+                specialTFIcon = LoadSprite("SpecialTransformEnemyIcon");
+                specialTFIconScepter = LoadSprite("SpecialTransformEnemyScepterIcon");
+                specialEatIcon = LoadSprite("SpecialEatEnemyIcon");
+                specialEatIconScepter = LoadSprite("SpecialEatEnemyScepterIcon");
+
+                buffSnackiesIcon = LoadSprite("BuffSnackiesIcon");
+                buffIndulgenceIcon = buffSnackiesIcon;
+                buffSoulmateIcon = LoadSprite("BuffSoulmateIcon");
+                buffAdrenalineIcon = LoadSprite("BuffAdrenalineIcon");
+                buffHoverDurationIcon = LoadSprite("BuffHoverDurationIcon");
+                buffBunnyJumpIcon = LoadSprite("BuffBunnyJumpIcon");
             }
         }
     }

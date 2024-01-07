@@ -37,12 +37,12 @@ namespace ChirrAltSkills.Chirr.SkillDefs
         {
             this.adrenalineGainBuffer -= Time.fixedDeltaTime;
             if (this.adrenalineGainBuffer <= 0 && NetworkServer.active) this.UpdatePassiveBuff();
-            else this.buffCounter = characterBody.GetBuffCount(Buffs.goldRushBuff);
+            else this.buffCounter = characterBody.GetBuffCount(Buffs.adrenalineBuff);
         }
 
         private void UpdatePassiveBuff()
         {
-            int currentCount = characterBody.GetBuffCount(Buffs.goldRushBuff);
+            int currentCount = characterBody.GetBuffCount(Buffs.adrenalineBuff);
             int newMoney = (int)characterBody.master.money;
 
             if (this.moneyTracker < newMoney)
@@ -57,10 +57,10 @@ namespace ChirrAltSkills.Chirr.SkillDefs
 
         private void RefreshExistingStacks(int currentCount)
         {
-            characterBody.ClearTimedBuffs(Buffs.goldRushBuff);
+            characterBody.ClearTimedBuffs(Buffs.adrenalineBuff);
             for (int i = 0; i < currentCount; i++)
             {
-                if (characterBody.GetBuffCount(Buffs.goldRushBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.goldRushBuff, 5);
+                if (characterBody.GetBuffCount(Buffs.adrenalineBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.adrenalineBuff, 5);
             }
         }
 
@@ -72,7 +72,7 @@ namespace ChirrAltSkills.Chirr.SkillDefs
 
             for (int i = 1; i <= numStacks; i++)
             {
-                if (characterBody.GetBuffCount(Buffs.goldRushBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.goldRushBuff, 5);
+                if (characterBody.GetBuffCount(Buffs.adrenalineBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.adrenalineBuff, 5);
             }
         }
 
@@ -82,17 +82,17 @@ namespace ChirrAltSkills.Chirr.SkillDefs
             {
                 for (int i = 1; i < buffCounter * .5; i++)
                 {
-                    if (characterBody.GetBuffCount(Buffs.goldRushBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.goldRushBuff, 1);
+                    if (characterBody.GetBuffCount(Buffs.adrenalineBuff) <= this.adrenalineCap) characterBody.AddTimedBuff(Buffs.adrenalineBuff, 1);
                 }
             }
 
-            this.buffCounter = characterBody.GetBuffCount(Buffs.goldRushBuff);
+            this.buffCounter = characterBody.GetBuffCount(Buffs.adrenalineBuff);
         }
 
         //new
         private void OnDestroy()
         {
-            characterBody.ClearTimedBuffs(Buffs.goldRushBuff);
+            characterBody.ClearTimedBuffs(Buffs.adrenalineBuff);
         }
     }
 }

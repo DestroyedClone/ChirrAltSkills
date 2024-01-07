@@ -10,7 +10,7 @@ namespace ChirrAltSkills
         public static BuffDef indulgenceBuff;
         public static BuffDef snackiesBuff;
         public static BuffDef soulmateBuff;
-        public static BuffDef goldRushBuff;
+        public static BuffDef adrenalineBuff;
         public static BuffDef hoverDurationIndicatorBuff;
         public static BuffDef bunnyJumpBuff;
 
@@ -57,7 +57,7 @@ namespace ChirrAltSkills
         {
             snackiesBuff = ScriptableObject.CreateInstance<BuffDef>();
             snackiesBuff.name = "DCSS2UChirrSnackies";
-            snackiesBuff.buffColor = Color.white;
+            snackiesBuff.buffColor = new Color(0.980f, 0.376f, 0.00f); //orange ish
             snackiesBuff.canStack = true;
             snackiesBuff.iconSprite = Assets.ChirrAssets.buffSnackiesIcon;
             snackiesBuff.isCooldown = false;
@@ -67,8 +67,8 @@ namespace ChirrAltSkills
 
             indulgenceBuff = ScriptableObject.CreateInstance<BuffDef>();
             indulgenceBuff.name = "DCSS2UChirrIndulgence";
-            indulgenceBuff.buffColor = Color.white;
-            indulgenceBuff.iconSprite = Assets.ChirrAssets.buffSnackiesIcon;
+            indulgenceBuff.buffColor = new Color(0.690f, 0.104f, 0.104f); //gross dark red
+            indulgenceBuff.iconSprite = Assets.ChirrAssets.buffIndulgenceIcon;
             indulgenceBuff.canStack = true;
             indulgenceBuff.isCooldown = false;
             indulgenceBuff.isDebuff = false;
@@ -77,7 +77,7 @@ namespace ChirrAltSkills
 
             soulmateBuff = ScriptableObject.CreateInstance<BuffDef>();
             soulmateBuff.name = "DCSS2UChirrComfortingPresence";
-            soulmateBuff.buffColor = Color.white;
+            soulmateBuff.buffColor = new Color(0.351f, 0.770f, 0.246f); //chirr-ish green
             soulmateBuff.iconSprite = Assets.ChirrAssets.buffSoulmateIcon;
             soulmateBuff.canStack = true;
             soulmateBuff.isCooldown = false;
@@ -91,21 +91,21 @@ namespace ChirrAltSkills
             }
             else
             {
-                goldRushBuff = ScriptableObject.CreateInstance<BuffDef>();
-                goldRushBuff.name = "DCSS2UChirrGoldRush";
-                goldRushBuff.buffColor = Color.yellow;
-                goldRushBuff.iconSprite = Assets.ChirrAssets.buffGoldrushIcon;
-                goldRushBuff.canStack = true;
-                goldRushBuff.isCooldown = false;
-                goldRushBuff.isDebuff = false;
-                goldRushBuff.isHidden = false;
+                adrenalineBuff = ScriptableObject.CreateInstance<BuffDef>();
+                adrenalineBuff.name = "DCSS2UChirrAdrenaline";
+                adrenalineBuff.buffColor = new Color(0.753f, 0.770f, 0.246f); //chirr-ish green + yelloish
+                adrenalineBuff.iconSprite = Assets.ChirrAssets.buffAdrenalineIcon;
+                adrenalineBuff.canStack = true;
+                adrenalineBuff.isCooldown = false;
+                adrenalineBuff.isDebuff = false;
+                adrenalineBuff.isHidden = false;
                 RecalculateStatsAPI.GetStatCoefficients += ChirrGoldRushRecalcStats;
             }
 
             hoverDurationIndicatorBuff = ScriptableObject.CreateInstance<BuffDef>();
             hoverDurationIndicatorBuff.name = "DCSS2UChirrHoverDurationRemaining";
-            hoverDurationIndicatorBuff.buffColor = Color.white;
-            hoverDurationIndicatorBuff.iconSprite = null;
+            hoverDurationIndicatorBuff.buffColor = new Color(0.351f, 0.770f, 0.246f); //chirr-ish green
+            hoverDurationIndicatorBuff.iconSprite = Assets.ChirrAssets.buffHoverDurationIcon;
             hoverDurationIndicatorBuff.canStack = true;
             hoverDurationIndicatorBuff.isCooldown = false;
             hoverDurationIndicatorBuff.isDebuff = false;
@@ -114,8 +114,8 @@ namespace ChirrAltSkills
 
             bunnyJumpBuff = ScriptableObject.CreateInstance<BuffDef>();
             bunnyJumpBuff.name = "DCSS2UChirrBunnyJumpBoost";
-            bunnyJumpBuff.buffColor = Color.white;
-            //lapinBuff.iconSprite = null;
+            bunnyJumpBuff.buffColor = new Color(0.351f, 0.770f, 0.246f); //chirr-ish green
+            bunnyJumpBuff.iconSprite = Assets.ChirrAssets.buffBunnyJumpIcon;
             bunnyJumpBuff.canStack = true;
             bunnyJumpBuff.isCooldown = false;
             bunnyJumpBuff.isDebuff = false;
@@ -125,7 +125,7 @@ namespace ChirrAltSkills
 
         private static void ChirrGoldRushRecalcStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
         {
-            int goldRushCount = sender.GetBuffCount(Buffs.goldRushBuff);
+            int goldRushCount = sender.GetBuffCount(Buffs.adrenalineBuff);
             if (goldRushCount > 0)
             {
                 args.attackSpeedMultAdd += 0.1f * goldRushCount;
@@ -137,7 +137,7 @@ namespace ChirrAltSkills
         private static void GetDiggerGoldRush(On.RoR2.BuffCatalog.orig_Init orig)
         {
             orig();
-            goldRushBuff = BuffCatalog.GetBuffDef(BuffCatalog.FindBuffIndex("GoldRush"));
+            adrenalineBuff = BuffCatalog.GetBuffDef(BuffCatalog.FindBuffIndex("GoldRush"));
         }
     }
 }

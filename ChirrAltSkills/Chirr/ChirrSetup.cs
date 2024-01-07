@@ -185,11 +185,11 @@ namespace ChirrAltSkills.Chirr
             #endregion Default
 
             passiveStageBuffSD = ChirrSetupHelpers.CreateSkillDef<PassiveStageBuffSD>("DESCLONE_SS2UCHIRR_PASSIVE_STAGEBUFF");
-            passiveStageBuffSD.icon = Assets.ChirrAssets.passiveEcosystemIcon;
+            passiveStageBuffSD.icon = Assets.ChirrAssets.passiveStageBuffIcon;
             AddPassive(passiveStageBuffSD);
 
             passiveSnackiesSD = ChirrSetupHelpers.CreateSkillDef<PassiveSnackiesPerStageSD>("DESCLONE_SS2UCHIRR_PASSIVE_SNACKIESPERSTAGE");
-            passiveSnackiesSD.icon = Assets.ChirrAssets.passiveSnackiesIcon;
+            passiveSnackiesSD.icon = Assets.ChirrAssets.passiveSnackiesPerStageIcon;
             passiveSnackiesSD.keywordTokens = new string[]
             {
                 "DESCLONE_SS2UCHIRR_SNACKIES_KEYWORD"
@@ -205,7 +205,7 @@ namespace ChirrAltSkills.Chirr
             AddPassive(passiveSoulmateSD);
 
             passiveDiggerSD = ChirrSetupHelpers.CreateSkillDef<PassiveDiggerSD>("DESCLONE_SS2UCHIRR_PASSIVE_DIGGER");
-            passiveDiggerSD.icon = Assets.ChirrAssets.passiveMinerIcon;
+            passiveDiggerSD.icon = Assets.ChirrAssets.passiveDiggerIcon;
             AddPassive(passiveDiggerSD);
         }
 
