@@ -24,7 +24,7 @@ namespace ChirrAltSkills.Chirr.SkillDefs
         {
             this.adrenalineGainBuffer = 0.3f;
             this.moneyTracker = (int)characterBody.master.money;
-            this.adrenalineCap = CASPlugin.modloaded_Miner ? GetModdedAdrenalineCap() : 49;
+            this.adrenalineCap = CASPlugin.modloaded_Digger ? GetModdedAdrenalineCap() : 49;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

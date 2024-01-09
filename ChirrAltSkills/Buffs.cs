@@ -85,7 +85,7 @@ namespace ChirrAltSkills
             soulmateBuff.isHidden = false;
             ContentAddition.AddBuffDef(soulmateBuff);
 
-            if (CASPlugin.modloaded_Miner)
+            if (CASPlugin.modloaded_Digger)
             {
                 On.RoR2.BuffCatalog.Init += GetDiggerGoldRush;
             }

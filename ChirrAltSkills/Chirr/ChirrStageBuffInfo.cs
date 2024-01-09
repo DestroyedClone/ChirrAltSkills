@@ -66,31 +66,20 @@ namespace ChirrAltSkills.Chirr
                 characterBody.baseAttackSpeed += asMult;
                 characterBody.baseMoveSpeed += msMult;
                 characterBody.baseRegen += regenMult;
-                if (characterBody.isPlayerControlled && characterBody.hasEffectiveAuthority)
-                {
-                    string g(string token)
-                    {
-                        return Language.GetString(token);
-                    }
-                    string stageName = Language.GetString(SceneCatalog.GetSceneDefForCurrentScene().nameToken);
-                    string formattedAnnouncement = Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_0", stageName);
-                    string formattedStatShow = Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1",
-                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ARMOR"), armorMult,
-                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_MOVESPEED"), string.Format("{0:P}", asMult),
-                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ATTACKSPEED"), string.Format("{0:P}", msMult),
-                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_REGEN"), regenMult,
-                        g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_HOVER"), string.Format("{0:P}", hover));
-                    Chat.AddMessage(formattedAnnouncement + Environment.NewLine + formattedStatShow);
-                };
                 characterBody.MarkAllStatsDirty();
             }
         }
 
         public static float GetStageHoverMultiplier()
         {
+            return GetCurrentStageBuffInfo().hover;
+        }
+
+        public static StageBuffInfo GetCurrentStageBuffInfo()
+        {
             var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             var info = GetStageBuffInfo(currentScene.name);
-            return info.hover;
+            return info;
         }
 
         public static StageBuffInfo defaultInfo = new StageBuffInfo()

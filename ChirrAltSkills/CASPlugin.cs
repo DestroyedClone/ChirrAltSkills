@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using ChirrAltSkills.Chirr;
+using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
 
@@ -7,11 +8,14 @@ using System.Security.Permissions;
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
 [module: UnverifiableCode]
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace ChirrAltSkills
 {
     [BepInDependency("com.ChirrLover.Starstorm2Unofficial", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("com.rob.DiggerUnearthed", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrSS2U Alt Skills", "0.0.1")]
     public class CASPlugin : BaseUnityPlugin
@@ -21,7 +25,9 @@ namespace ChirrAltSkills
         internal const string LastDllVersion = "0.16.4";
         public static PluginInfo PInfo { get; set; }
 
-        public static bool modloaded_Miner = false;
+        public static bool modloaded_Digger = false;
+        public static bool modloaded_ClassicItems = false;
+        public static bool modloaded_Scepter = false;
 
         public void Awake()
         {
@@ -29,8 +35,9 @@ namespace ChirrAltSkills
             _logger = Logger;
             _config = Config;
 
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.DiggerUnearthed"))
-                modloaded_Miner = true;
+            modloaded_Digger = (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.DiggerUnearthed"));
+            modloaded_ClassicItems = (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"));
+            modloaded_Scepter = (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter"));
 
             Assets.Init();
             Buffs.Init();

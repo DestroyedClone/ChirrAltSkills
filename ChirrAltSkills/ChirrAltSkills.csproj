@@ -42,6 +42,9 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+	  <Reference Include="AncientScepter">
+	    <HintPath>lib\AncientScepter.dll</HintPath>
+	  </Reference>
 	  <Reference Include="DiggerUnearthed">
 	    <HintPath>lib\DiggerUnearthed.dll</HintPath>
 	  </Reference>

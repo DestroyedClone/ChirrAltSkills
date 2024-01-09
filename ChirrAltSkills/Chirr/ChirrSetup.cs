@@ -12,6 +12,7 @@ using RoR2;
 using RoR2.Skills;
 using Starstorm2Unofficial.Survivors.Chirr;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -38,8 +39,10 @@ namespace ChirrAltSkills.Chirr
 
         public static SteppedSkillDef primaryDoubleTapSD;
 
-        public static SkillDef specialTransformSD;
-        public static SkillDef specialEatSD;
+        public static TransformEnemySD specialTransformSD;
+        public static TransformEnemySD specialTransformScepterSD;
+        public static EatEnemySD specialEatSD;
+        public static EatEnemySD specialEatScepterSD;
 
         public static List<CharacterBody> chirrSoulmates = new List<CharacterBody>();
         public static List<CharacterBody> commandoSoulmates = new List<CharacterBody>();
@@ -71,6 +74,36 @@ namespace ChirrAltSkills.Chirr
             };
 
             ChirrStageBuffInfo.Init();
+
+            if (CASPlugin.modloaded_Scepter) ScepterSetup();
+            //if (CASPlugin.modloaded_ClassicItems) ClassicScepterSetup();
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static void ScepterSetup()
+        {
+            ContentAddition.AddEntityState<TransformEnemyScepterES>(out _);
+            specialTransformScepterSD = ChirrSetupHelpers.CreateSkillDef<TransformEnemySD>("DESCLONE_SS2UCHIRR_TRANSFORM_SCEPTER");
+            ChirrSetupHelpers.CopySkillDefFields(specialTransformSD, specialTransformScepterSD, false);
+            specialTransformScepterSD.activationState = new EntityStates.SerializableEntityStateType(typeof(TransformEnemyScepterES));
+            specialTransformScepterSD.icon = Assets.ChirrAssets.specialTransformScepterIcon;
+            ContentAddition.AddSkillDef(specialTransformScepterSD);
+            //ChirrSetupHelpers.AddToSkillFamily(specialTransformScepterSD, skillLocator.special.skillFamily);
+
+            ContentAddition.AddEntityState<EatEnemyScepterES>(out _);
+            specialEatScepterSD = ChirrSetupHelpers.CreateSkillDef<EatEnemySD>("DESCLONE_SS2UCHIRR_EAT_SCEPTER");
+            ChirrSetupHelpers.CopySkillDefFields(specialEatSD, specialEatScepterSD, false);
+            specialEatScepterSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EatEnemyScepterES));
+            specialEatScepterSD.icon = Assets.ChirrAssets.specialEatScepterIcon;
+            specialEatScepterSD.keywordTokens = new string[]
+            {
+                "DESCLONE_SS2UCHIRR_SNACKIES_KEYWORD"
+            };
+            ContentAddition.AddSkillDef(specialEatScepterSD);
+            //ChirrSetupHelpers.AddToSkillFamily(specialEatSD, skillLocator.special.skillFamily);
+
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(specialTransformScepterSD, "SS2UChirrBody", specialTransformSD);
+            AncientScepter.AncientScepterItem.instance.RegisterScepterSkill(specialEatScepterSD, "SS2UChirrBody", specialEatSD);
         }
 
         private static void RevertBaseChanges()

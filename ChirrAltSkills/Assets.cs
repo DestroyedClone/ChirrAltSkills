@@ -45,9 +45,9 @@ namespace ChirrAltSkills
             public static Sprite secondaryHeadbuttWeakenIcon;
 
             public static Sprite specialTFIcon;
-            public static Sprite specialTFIconScepter;
+            public static Sprite specialTransformScepterIcon;
             public static Sprite specialEatIcon;
-            public static Sprite specialEatIconScepter;
+            public static Sprite specialEatScepterIcon;
 
             public static Sprite buffIndulgenceIcon;
             public static Sprite buffSnackiesIcon;
@@ -71,9 +71,9 @@ namespace ChirrAltSkills
                 //NeedleIcon
 
                 specialTFIcon = LoadSprite("SpecialTransformEnemyIcon");
-                specialTFIconScepter = LoadSprite("SpecialTransformEnemyScepterIcon");
+                specialTransformScepterIcon = LoadSprite("SpecialTransformEnemyScepterIcon");
                 specialEatIcon = LoadSprite("SpecialEatEnemyIcon");
-                specialEatIconScepter = LoadSprite("SpecialEatEnemyScepterIcon");
+                specialEatScepterIcon = LoadSprite("SpecialEatEnemyScepterIcon");
 
                 buffSnackiesIcon = LoadSprite("BuffSnackiesIcon");
                 buffIndulgenceIcon = buffSnackiesIcon;
