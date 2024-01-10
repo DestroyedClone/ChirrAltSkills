@@ -15,7 +15,7 @@ namespace ChirrAltSkills.Chirr.States.Special
         private ChirrTracker chirrTracker;
         public virtual bool AllowBoss => false;
 
-        private float duration = 0.25f;
+        private readonly float duration = 0.25f;
 
         public override void OnEnter()
         {
@@ -58,10 +58,12 @@ namespace ChirrAltSkills.Chirr.States.Special
                 position = enemyFootPos
             };
             DirectorCore.GetMonsterSpawnDistance(input, out directorPlacementRule.minDistance, out directorPlacementRule.maxDistance);
-            DirectorSpawnRequest directorSpawnRequest = new DirectorSpawnRequest(masterCopySpawnCard, directorPlacementRule, new Xoroshiro128Plus(Run.instance.seed + (ulong)Run.instance.fixedTime));
-            directorSpawnRequest.teamIndexOverride = new TeamIndex?(characterBody.master.teamIndex);
-            directorSpawnRequest.ignoreTeamMemberLimit = true;
-            directorSpawnRequest.summonerBodyObject = characterBody.gameObject;
+            DirectorSpawnRequest directorSpawnRequest = new DirectorSpawnRequest(masterCopySpawnCard, directorPlacementRule, new Xoroshiro128Plus(Run.instance.seed + (ulong)Run.instance.fixedTime))
+            {
+                teamIndexOverride = new TeamIndex?(characterBody.master.teamIndex),
+                ignoreTeamMemberLimit = true,
+                summonerBodyObject = characterBody.gameObject
+            };
             DirectorSpawnRequest directorSpawnRequest2 = directorSpawnRequest;
             directorSpawnRequest2.onSpawnedServer = (Action<SpawnCard.SpawnResult>)Delegate.Combine(directorSpawnRequest2.onSpawnedServer, new Action<SpawnCard.SpawnResult>(delegate (SpawnCard.SpawnResult result)
             {
@@ -83,7 +85,9 @@ namespace ChirrAltSkills.Chirr.States.Special
                     }
                 }
 
-                component3.AddComponent<MasterSuicideOnTimer>().lifeTimer = 30f;
+                float lifeTimer = AllowBoss ? 20f : 10f;
+
+                component3.AddComponent<MasterSuicideOnTimer>().lifeTimer = lifeTimer;
 
                 GameObject bodyObject = component3.GetBodyObject();
                 if (bodyObject)

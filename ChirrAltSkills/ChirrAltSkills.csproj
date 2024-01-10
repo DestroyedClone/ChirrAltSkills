@@ -39,6 +39,7 @@
 	  <Folder Include="language\RU\" />
 	  <Folder Include="language\tr\" />
 	  <Folder Include="language\zh-CN\" />
+	  <Folder Include="ModCompat\" />
 	</ItemGroup>
 	
 	<ItemGroup>

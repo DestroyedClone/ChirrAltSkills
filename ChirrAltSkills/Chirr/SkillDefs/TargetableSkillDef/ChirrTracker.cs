@@ -58,12 +58,17 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
 
         private bool CanTargetBoss(HurtBox hurtBox)
         {
-            return !hurtBox.healthComponent.body.isBoss || canTargetBoss;
+            return !hurtBox.healthComponent.body.isBoss || targetCanBeBoss;
         }
 
         private bool CanTargetMaster(HurtBox hurtBox)
         {
             return !hurtBox.healthComponent.body.master || targetNeedsMaster;
+        }
+
+        private bool CanTargetHealthPercentage(HurtBox hurtBox)
+        {
+            return !targetHealthThreshold || hurtBox.healthComponent.combinedHealthFraction < targetHealthThresholdPercentage;
         }
 
         private void SearchForTarget(Ray aimRay)
@@ -82,11 +87,11 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
             foreach (var result in results)
             {
                 if (!result.healthComponent
-                    || !result.healthComponent.body
-                    || !CanTargetMaster(result)
-                    || !CanTargetBoss(result)
                     || !result.healthComponent.alive
-                    || result.healthComponent.combinedHealthFraction > 0.5f) continue;
+                    || !result.healthComponent.body
+                    || !CanTargetHealthPercentage(result)
+                    || !CanTargetMaster(result)
+                    || !CanTargetBoss(result)) continue;
                 this.trackingTarget = result;
                 hasGottenResult = true;
                 break;
@@ -119,7 +124,9 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
 
         private readonly BullseyeSearch search = new BullseyeSearch();
 
-        public bool canTargetBoss = false;
+        public bool targetHealthThreshold = false;
+        public float targetHealthThresholdPercentage = 1;
+        public bool targetCanBeBoss = false;
         public bool targetNeedsMaster = false;
     }
 }

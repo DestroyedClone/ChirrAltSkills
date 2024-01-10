@@ -40,6 +40,8 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
         protected class InstanceData : BaseSkillInstanceData
         {
             public ChirrTracker chirrTracker;
+            public bool healthThreshold = false;
+            public float healthThresholdPercentage;
         }
     }
 }

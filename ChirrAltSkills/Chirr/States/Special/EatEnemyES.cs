@@ -16,7 +16,7 @@ namespace ChirrAltSkills.Chirr.States.Special
 
         private ChirrTracker chirrTracker;
 
-        private float duration = 0.25f;
+        private readonly float duration = 0.25f;
 
         public override void OnEnter()
         {

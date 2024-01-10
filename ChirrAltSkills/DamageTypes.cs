@@ -37,6 +37,7 @@ namespace ChirrAltSkills
                 damageReport.attackerBody.AddTimedBuff(Buffs.snackiesBuff, durationEating);
 
             int victimBuffCount = damageReport.victimBody.GetBuffCount(Buffs.snackiesBuff);
+            victimBuffCount += damageReport.victimBody.GetBuffCount(Buffs.indulgenceBuff);
             float durationStealing = 10f;
             for (int i = 0; i < victimBuffCount; i++)
                 damageReport.attackerBody.AddTimedBuff(Buffs.snackiesBuff, durationStealing);

@@ -8,8 +8,10 @@ namespace ChirrAltSkills.Chirr.SkillDefs.Passive
     {
         public override BaseSkillInstanceData OnAssigned(GenericSkill skillSlot)
         {
-            PassiveBunnySD.InstanceData instanceData = new PassiveBunnySD.InstanceData();
-            instanceData.skillSlot = skillSlot;
+            PassiveBunnySD.InstanceData instanceData = new PassiveBunnySD.InstanceData
+            {
+                skillSlot = skillSlot
+            };
             skillSlot.characterBody.baseJumpCount += 2;
             skillSlot.characterBody.baseJumpPower -= 3.75f; //default 15, -25% = 11.25
             skillSlot.characterBody.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
@@ -37,7 +39,7 @@ namespace ChirrAltSkills.Chirr.SkillDefs.Passive
 
         public class InstanceData : SkillDef.BaseSkillInstanceData
         {
-            public void BunnyBoostOnLand_Server(ref CharacterMotor.HitGroundInfo hitGroundInfo)
+            public void BunnyBoostOnLand_Server(ref CharacterMotor.HitGroundInfo _)
             {
                 skillSlot.characterBody.AddTimedBuffAuthority(Buffs.bunnyJumpBuff.buffIndex, 10f);
             }

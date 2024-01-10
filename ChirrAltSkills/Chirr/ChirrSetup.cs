@@ -40,9 +40,9 @@ namespace ChirrAltSkills.Chirr
         public static SteppedSkillDef primaryDoubleTapSD;
 
         public static TransformEnemySD specialTransformSD;
-        public static TransformEnemySD specialTransformScepterSD;
+        public static TransformEnemyScepterSD specialTransformScepterSD;
         public static EatEnemySD specialEatSD;
-        public static EatEnemySD specialEatScepterSD;
+        public static EatEnemyScepterSD specialEatScepterSD;
 
         public static List<CharacterBody> chirrSoulmates = new List<CharacterBody>();
         public static List<CharacterBody> commandoSoulmates = new List<CharacterBody>();
@@ -83,7 +83,7 @@ namespace ChirrAltSkills.Chirr
         private static void ScepterSetup()
         {
             ContentAddition.AddEntityState<TransformEnemyScepterES>(out _);
-            specialTransformScepterSD = ChirrSetupHelpers.CreateSkillDef<TransformEnemySD>("DESCLONE_SS2UCHIRR_TRANSFORM_SCEPTER");
+            specialTransformScepterSD = ChirrSetupHelpers.CreateSkillDef<TransformEnemyScepterSD>("DESCLONE_SS2UCHIRR_TRANSFORM_SCEPTER");
             ChirrSetupHelpers.CopySkillDefFields(specialTransformSD, specialTransformScepterSD, false);
             specialTransformScepterSD.activationState = new EntityStates.SerializableEntityStateType(typeof(TransformEnemyScepterES));
             specialTransformScepterSD.icon = Assets.ChirrAssets.specialTransformScepterIcon;
@@ -91,7 +91,7 @@ namespace ChirrAltSkills.Chirr
             //ChirrSetupHelpers.AddToSkillFamily(specialTransformScepterSD, skillLocator.special.skillFamily);
 
             ContentAddition.AddEntityState<EatEnemyScepterES>(out _);
-            specialEatScepterSD = ChirrSetupHelpers.CreateSkillDef<EatEnemySD>("DESCLONE_SS2UCHIRR_EAT_SCEPTER");
+            specialEatScepterSD = ChirrSetupHelpers.CreateSkillDef<EatEnemyScepterSD>("DESCLONE_SS2UCHIRR_EAT_SCEPTER");
             ChirrSetupHelpers.CopySkillDefFields(specialEatSD, specialEatScepterSD, false);
             specialEatScepterSD.activationState = new EntityStates.SerializableEntityStateType(typeof(EatEnemyScepterES));
             specialEatScepterSD.icon = Assets.ChirrAssets.specialEatScepterIcon;

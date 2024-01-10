@@ -8,22 +8,12 @@ namespace ChirrAltSkills.Chirr.SkillDefs.Special
     {
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
-            //if (NetworkServer.active)
-            /*if (!skillSlot.GetComponent<EatRadiusBehavior>())
-            {
-                skillSlot.AddComponent<EatRadiusBehavior>();
-            }*/
-            return base.OnAssigned(skillSlot);
-        }
-
-        public override void OnUnassigned(GenericSkill skillSlot)
-        {
-            /*if (NetworkServer.active)
-            if (skillSlot.GetComponent<EatRadiusBehavior>())
-            {
-                Destroy(skillSlot.GetComponent<EatRadiusBehavior>());
-            }*/
-            base.OnUnassigned(skillSlot);
+            var original = base.OnAssigned(skillSlot);
+            var tracker = ((ChirrTargetableSkillDef.InstanceData)original).chirrTracker;
+            tracker.targetHealthThreshold = false;
+            tracker.targetNeedsMaster = false;
+            tracker.targetCanBeBoss = false;
+            return original;
         }
     }
 }
