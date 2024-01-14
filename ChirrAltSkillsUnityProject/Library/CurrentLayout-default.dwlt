@@ -493,9 +493,9 @@ MonoBehaviour:
         m_ClientGUIView: {fileID: 3}
       m_SearchString: 
     m_AssetListState:
-      scrollPos: {x: 0, y: 41}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
+      scrollPos: {x: 0, y: 0}
+      m_SelectedIDs: 0347f451
+      m_LastClickedID: 1374963459
       m_ExpandedIDs: 
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 483400004a3400004c3400004e3400005034000052340000543400005634000060340000583400005a34000062340000643400006634000068340000
+      m_SelectedIDs: 
       m_LastClickedID: 0
       m_ExpandedIDs: 60fbffff
       m_RenameOverlay:

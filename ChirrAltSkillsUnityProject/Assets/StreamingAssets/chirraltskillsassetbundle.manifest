@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3601292368
+CRC: 2994242774
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 323cc98d75004e18de7afa2aaa9f8274
+    Hash: fefc7c3a1ff3dd19022cb19ec0a3dfe1
   TypeTreeHash:
     serializedVersion: 2
     Hash: c90fc19e2679e5295d10bd00f33cb4c3
@@ -16,15 +16,15 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/PassiveBunnyIcon.png
-- Assets/BuffSnackiesIcon.png
+- Assets/BuffSoulmateIcon.png
 - Assets/SpecialTransformEnemyIcon.png
 - Assets/PassiveSoulmateIcon.png
 - Assets/BuffHoverDurationIcon.png
 - Assets/BuffBunnyJumpIcon.png
 - Assets/SpecialTransformEnemyScepterIcon.png
-- Assets/BuffSoulmateIcon.png
 - Assets/SpecialEatEnemyScepterIcon.png
 - Assets/PrimaryNeedleIcon.png
+- Assets/BuffSnackiesIcon.png
 - Assets/BuffAdrenalineIcon.png
 - Assets/PassiveStageBuffIcon.png
 - Assets/SpecialEatEnemyIcon.png
