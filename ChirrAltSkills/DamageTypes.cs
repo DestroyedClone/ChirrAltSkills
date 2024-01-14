@@ -31,8 +31,8 @@ namespace ChirrAltSkills
             float remainingHealthFraction = damageReport.combinedHealthBeforeDamage / damageReport.victimBody.healthComponent.fullCombinedHealth;
             float remainingHealthPercentage = remainingHealthFraction * 100;
 
-            float durationEating = EatEnemyES.baseBuffDuration + EatEnemyES.stackBuffDuration * remainingHealthPercentage;
-            int buffsToGive = Mathf.CeilToInt(remainingHealthPercentage);
+            float durationEating = EatEnemyES.baseBuffDuration + EatEnemyES.stackBuffDuration * remainingHealthPercentage * EatEnemyES.secondsPerHealthPercentage;
+            int buffsToGive = Mathf.CeilToInt(remainingHealthPercentage * EatEnemyES.stacksPerHealthPercentage);
             for (int i = 0; i < buffsToGive; i++)
                 damageReport.attackerBody.AddTimedBuff(Buffs.snackiesBuff, durationEating);
 

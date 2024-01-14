@@ -10,7 +10,9 @@ namespace ChirrAltSkills.Chirr.States.Special
     {
         public const float baseBuffDuration = 10;
         public const float stackBuffDuration = 1f;
-        public const float damageCoefficient = 10f; //1000%
+        public const float damageCoefficient = 5f; //1000%
+        public const float stacksPerHealthPercentage = 0.5f;
+        public const float secondsPerHealthPercentage = 0.5f;
 
         public virtual bool AllowBoss => false;
 
