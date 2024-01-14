@@ -1,7 +1,12 @@
 ﻿using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
-
+using
+     System;
+using UnityEngine.Networking;
+using R2API.Networking;
+using System.Security.Principal;
+using R2API.Networking.Interfaces;
 namespace ChirrAltSkills.Chirr
 {
     internal class ChirrStageBuffInfo
@@ -49,23 +54,89 @@ namespace ChirrAltSkills.Chirr
             public const int moveSpeedMaxStagesCleared = 10;
             public const float stageMultiplierStagesCleared = 0.2f;
 
-            public void Apply(CharacterBody characterBody)
+            //this is NOT PERFORMANT
+            //IM CALLING IT MULTIPLE TIMES
+            public void GetResultingStatChanges(out float armorMult, out float asMult, out float msMult, out float regenMult, out string currentStageToken)
             {
                 var stageClearCount = Mathf.Max(0, Run.instance.stageClearCount);
 
-                var multiplier = 1 + stageClearCount * stageMultiplierStagesCleared;
-                var multiplierMS = 1 + Mathf.Min(20, stageClearCount) * stageMultiplierStagesCleared;
+                var multiplier = 1 + stageClearCount * StageBuffInfo.stageMultiplierStagesCleared;
+                var multiplierMS = 1 + Mathf.Min(20, stageClearCount) * StageBuffInfo.stageMultiplierStagesCleared;
 
-                float armorMult = armor * multiplier;
-                float asMult = attackspeed * multiplier;
-                float msMult = movespeed * multiplierMS;
-                float regenMult = regen * multiplier;
+                armorMult = armor * multiplier;
+                asMult = attackspeed * multiplier;
+                msMult = movespeed * multiplierMS;
+                regenMult = regen * multiplier;
+                currentStageToken = SceneCatalog.GetSceneDefForCurrentScene().nameToken;
+            }
+
+            public void Apply(CharacterBody characterBody)
+            {
+                GetResultingStatChanges(out float armorMult, out float asMult, out float msMult, out float regenMult, out string _);
 
                 characterBody.baseArmor += armorMult;
                 characterBody.baseAttackSpeed += asMult;
                 characterBody.baseMoveSpeed += msMult;
                 characterBody.baseRegen += regenMult;
                 characterBody.MarkAllStatsDirty();
+            }
+
+            public void SendChatAnnouncementMessage(CharacterBody characterBody)
+            {
+                if (!NetworkServer.active) return;
+                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage()
+                {
+                    baseToken = "DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_0",
+                    subjectCharacterBodyGameObject = characterBody.gameObject,
+                    paramTokens = new string[]
+                    {
+                        SceneCatalog.GetSceneDefForCurrentScene().nameToken
+                    }
+                });
+            }
+
+            public string GetChangeMessage()
+            {
+                GetResultingStatChanges(out float armorMult, out float asMult, out float msMult, out float regenMult, out string _);
+
+                string g(string token)
+                {
+                    return Language.GetString(token);
+                }
+                string formattedStatShow = Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1",
+                    g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ARMOR"), armorMult,
+                    g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_MOVESPEED"), string.Format("{0:P}", asMult),
+                    g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ATTACKSPEED"), string.Format("{0:P}", msMult),
+                    g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_REGEN"), regenMult,
+                    g("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_HOVER"), string.Format("{0:P}", hover));
+                return formattedStatShow;
+            }
+
+            public void SendChatChangeMessage(NetworkInstanceId targetNetId)
+            {
+                if (!NetworkServer.active) return;
+                GetResultingStatChanges(out float armorMult, out float asMult, out float msMult, out float regenMult, out string _);
+                //new Networking.SendToAllSimpleChatMessage("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1", combined).Send(NetworkDestination.Clients);
+                new Networking.SendToClient_ChirrStatInfo(targetNetId, armorMult, asMult, msMult, regenMult, hover).Send(NetworkDestination.Clients);
+            }
+
+            public void LogChangeMessage()
+            {
+                GetResultingStatChanges(out float armorMult, out float asMult, out float msMult, out float regenMult, out string _);
+                var array = new string[]
+                {
+                    Language.GetString("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ARMOR"),
+                    armorMult.ToString(),
+                    Language.GetString("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_MOVESPEED"),
+                    string.Format("{0:P}", asMult),
+                    Language.GetString("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_ATTACKSPEED"),
+                    string.Format("{0:P}", msMult),
+                    Language.GetString("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_REGEN"),
+                    regenMult.ToString(),
+                    Language.GetString("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_HOVER"),
+                    string.Format("{0:P}", hover),
+                };
+                Debug.Log(Language.GetStringFormatted("DESCLONE_SS2UCHIRR_STAGEBUFF_MESSAGE_1", array));
             }
         }
 

@@ -58,17 +58,17 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
 
         private bool CanTargetBoss(HurtBox hurtBox)
         {
-            return !hurtBox.healthComponent.body.isBoss || targetCanBeBoss;
+            return targetCanBeBoss || !hurtBox.healthComponent.body.isBoss;
         }
 
         private bool CanTargetMaster(HurtBox hurtBox)
         {
-            return !hurtBox.healthComponent.body.master || targetNeedsMaster;
+            return targetCanBeNonMaster || !hurtBox.healthComponent.body.master;
         }
 
         private bool CanTargetHealthPercentage(HurtBox hurtBox)
         {
-            return !targetHealthThreshold || hurtBox.healthComponent.combinedHealthFraction < targetHealthThresholdPercentage;
+            return !targetNeedsHealthThreshold || hurtBox.healthComponent.combinedHealthFraction <= targetHealthThresholdPercentage;
         }
 
         private void SearchForTarget(Ray aimRay)
@@ -103,7 +103,7 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
         }
 
         public float maxTrackingDistanceCalculated = 5;
-        public const float maxTrackingDistance = 5f;
+        public float maxTrackingDistance = 5f;
         public const float maxTrackingDistancePerStack = 1f;
 
         public const float maxTrackingAngle = 20f;
@@ -124,9 +124,9 @@ namespace ChirrAltSkills.Chirr.SkillDefs.TargetableSkillDef
 
         private readonly BullseyeSearch search = new BullseyeSearch();
 
-        public bool targetHealthThreshold = false;
+        public bool targetNeedsHealthThreshold = false;
         public float targetHealthThresholdPercentage = 1;
         public bool targetCanBeBoss = false;
-        public bool targetNeedsMaster = false;
+        public bool targetCanBeNonMaster = false;
     }
 }

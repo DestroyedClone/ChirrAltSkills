@@ -10,8 +10,9 @@ namespace ChirrAltSkills.Chirr.SkillDefs.Special
         {
             var original = base.OnAssigned(skillSlot);
             var tracker = ((ChirrTargetableSkillDef.InstanceData)original).chirrTracker;
-            tracker.targetHealthThreshold = false;
-            tracker.targetNeedsMaster = false;
+            tracker.maxTrackingDistance = 5;
+            tracker.targetNeedsHealthThreshold = false;
+            tracker.targetCanBeNonMaster = true;
             tracker.targetCanBeBoss = false;
             return original;
         }

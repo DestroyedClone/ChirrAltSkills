@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using ChirrAltSkills.Chirr;
+using R2API.Networking;
 using System.Security;
 using System.Security.Permissions;
 
@@ -17,6 +18,7 @@ namespace ChirrAltSkills
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
     [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrSS2U Alt Skills", "0.0.1")]
+    [BepInDependency(NetworkingAPI.PluginGUID)]
     public class CASPlugin : BaseUnityPlugin
     {
         internal static BepInEx.Logging.ManualLogSource _logger;
@@ -42,6 +44,8 @@ namespace ChirrAltSkills
             Buffs.Init();
             DamageTypes.Init();
             ChirrSetup.Init();
+            ChirrCommands.AddChatCommands();
+            Networking.Init();
         }
     }
 }
