@@ -18,7 +18,7 @@ namespace ChirrAltSkills.Chirr
             if (chatMsg.text.ToLower() != "/chirrstage") return;
             var bop = ChirrStageBuffInfo.GetCurrentStageBuffInfo();
             bop.SendChatChangeMessage(chatMsg.sender.GetComponent<NetworkUser>().netId);
-            chatMsg.text += $" [received!]";
+            chatMsg.text += $" [!]";
             orig(message);
         }
 

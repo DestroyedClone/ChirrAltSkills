@@ -49,7 +49,9 @@ namespace ChirrAltSkills.Chirr.States.CharacterMains
                 else if (skill.skillDef == ChirrSetup.passiveBunnySD)
                 {
                     isBunny = true;
-                    ChangeHoverMultiplier(1, -1);
+                    hoverHasDuration = true;
+                    hoverDuration = 2f;
+                    //ChangeHoverMultiplier(1, -1);
                 }
                 else if (skill.skillDef == ChirrSetup.passiveDiggerSD)
                 {
