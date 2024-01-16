@@ -1,23 +1,27 @@
 # Videogame Mod 2 Chirr Alt Skills
 
-This is a mod for **Videogame Mod 2 Unofficial**, which adds alternate skills and passives to Chirr. Not tested for multiplayer
+This is a mod for **Videogame Mod 2 Unofficial**, which adds alternate skills and passives to Chirr. This does NOT affect the official [Starstorm 2's](https://thunderstore.io/package/TeamMoonstorm/Starstorm2/) Chirr.
 
 ## Wiki
-Check it, it's in the upper tabs of this page.
+Check it, it's in the upper tabs of this page and gives a lot more detail on the skills.
 
 ## Chirr
-| icon | Skill | Description
+| Icon | Skill | Description
 |:--:|:--:|--|
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/StageBuffIcon.png?raw=true) | <sup>Passive</sup><br>Ecosystem | Gain a stat buff depending on stage. Hover effectiveness varies.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/GluttonyIcon.png?raw=true/GluttonyIcon.png) | <sup>Passive</sup><br>Gluttony | Gain permanent Snackies over stages.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/LapinIcon.png?raw=true) | <sup>Passive</sup><br>Lapin| Increases jump count but reduces jump height.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/SoulmatePassiveIcon.png?raw=true) | <sup>Passive</sup><br>Soulmate | Gain a stat boost if you have an ally Commando, but temporarily lose stats if an ally Commando dies.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/MinerIcon.png?raw=true) | <sup>Passive</sup><br>Gold Rush| Collecting gold fuels a stat buff
-| ![enter image description here](https://static.wikia.nocookie.net/riskofrain2_gamepedia_en/images/7/7c/Double_Tap.png) | <sup>Primary</sup><br>Double Tap | Rapidly shoot an enemy for 100% damage.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/ChirrTFIcon.png?raw=true) | <sup>Special</sup><br>Transchirrmation | Converts a nearby low health enemy into Chirr.
-| ![enter image description here](https://github.com/DestroyedClone/ChirrAltSkills/blob/master/ChirrAltSkillsUnityProject/Assets/ChirrEatIcon.png?raw=true) | <sup>Special</sup><br>Snack| Eats a nearby low health enemy into a stat buff, Snackies.
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/PassiveStageBuffIcon.png) | Passive: Ecosystem | Minor stat changes for stages
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/PassiveSnackiesPerStageIcon.png) | Passive: Gluttony | Permanent stacks of Snackies per stage completed
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/PassiveDiggerIcon.png) | Passive: Gold Rush | [MinerUnearthed  Thunderstore - The Risk of Rain 2 Mod Database](https://thunderstore.io/package/EnforcerGang/MinerUnearthed/)
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/PassiveBunnyIcon.png) | Passive: Lapin | +2 jumps, jump boost on landing
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/PassiveSoulmateIcon.png) | Passive: Soulmate | Gain stat boosts per friendly Commando alive, temporary stat decrease when they die
+| ![](https://raw.githubusercontent.com/Moffein/Starstorm2Unofficial/main/Starstorm%202/Starstorm2-Unity/Assets/AssetBundle/Chirr/ChirrPassive.png) | Passive: Take Flight | +50% jump height
+| ![](https://static.wikia.nocookie.net/riskofrain2_gamepedia_en/images/7/7c/Double_Tap.png) | Primary: Double Tap | [Commando - Risk of Rain 2 Wiki (fandom.com)](https://riskofrain2.fandom.com/wiki/Commando#Double_Tap)
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/SpecialEatEnemyIcon.png) | Special: Snack | Chomp a targeted enemy, and if it kills: Grants Snackies
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/SpecialEatEnemyScepterIcon.png) | Special: Devour (Scepter) | Can target bosses.
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/SpecialTransformEnemyIcon.png) | Special: Transchirrmation | Transform a low-health targeted enemy into a Chirr
+| ![](https://raw.githubusercontent.com/DestroyedClone/ChirrAltSkills/master/ChirrAltSkillsUnityProject/Assets/SpecialTransformEnemyScepterIcon.png) | Special: Protranschirrmation (Scepter) | Can target bosses.
 
 
 ## Credits
 * SS2U - Chirr, Chirr EntityState code
-* Miner Mod - Passives
+* Miner Mod - Passive
+* RandomlyAwesome - AssignableSkillDef
