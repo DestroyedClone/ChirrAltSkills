@@ -40,6 +40,7 @@ namespace ChirrAltSkills
             modloaded_ClassicItems = (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.ThinkInvisible.ClassicItems"));
             modloaded_Scepter = (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.DestroyedClone.AncientScepter"));
 
+            ConfigSetup.Init();
             Assets.Init();
             Buffs.Init();
             DamageTypes.Init();
