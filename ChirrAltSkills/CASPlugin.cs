@@ -17,7 +17,7 @@ namespace ChirrAltSkills
     [BepInDependency("com.DestroyedClone.AncientScepter", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.ThinkInvisible.ClassicItems", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(R2API.R2API.PluginGUID)]
-    [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrSS2U Alt Skills", "0.0.1")]
+    [BepInPlugin("com.DestroyedClone.ChirrAltSkills", "ChirrSS2U Alt Skills", "0.0.2")]
     [BepInDependency(NetworkingAPI.PluginGUID)]
     public class CASPlugin : BaseUnityPlugin
     {
